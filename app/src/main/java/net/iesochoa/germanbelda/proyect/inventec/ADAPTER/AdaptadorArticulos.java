@@ -27,7 +27,8 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     @NonNull
     @Override
     public AdaptadorArticulos.ArticulosViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_main, viewGroup, false);
+
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_edicion_articulo, viewGroup, false);
 
         itemView.setOnClickListener(this);
 
@@ -39,6 +40,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     @Override
     public void onBindViewHolder(@NonNull AdaptadorArticulos.ArticulosViewHolder articulosViewHolder, int posicion) {
         Articulo item = datos.get(posicion);
+
         articulosViewHolder.bindArticulo(item);
     }
 
@@ -72,8 +74,8 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         }
 
         public void bindArticulo(Articulo t) {
-            //tvid.setText(t.getId());
-            //tvtotales.setText(t.getTotales());
+            tvid.setText(t.getId());
+            tvtotales.setText(t.getTotales());
         }
 
     }

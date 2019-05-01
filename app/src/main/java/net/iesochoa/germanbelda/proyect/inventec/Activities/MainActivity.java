@@ -32,9 +32,13 @@ public class MainActivity extends AppCompatActivity {
         datos = new ArrayList<>();
         for(int i=1; i<=50; i++){
             //int result = Integer.parseInt(number);
-            datos.add(new Articulo("215488796","Palo","10"));
-            database.insert("Articulo",null,datos.get(i).toContentValues());
+            datos.add(new Articulo(String.valueOf(i),"Palo","10"));
         }
+
+        /*for (Articulo ins:datos) {
+            database.insert("Articulo",null,ins.toContentValues());
+        }*/
+
         //Inicialización RecyclerView
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
         recView.setHasFixedSize(true);
@@ -42,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         final AdaptadorArticulos adaptador = new AdaptadorArticulos(datos);
 
         recView.setAdapter(adaptador);
-        //Mostramos el
+        //Mostramos el recycler en modo linea
         recView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
     }
 }
