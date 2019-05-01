@@ -18,8 +18,6 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     private ArrayList<Articulo> datos;
     private View.OnClickListener listener;
-    private TextView tvid;
-    private TextView tvtotales;
 
     public AdaptadorArticulos(ArrayList<Articulo> datos) {
         this.datos = datos;
@@ -40,7 +38,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     @Override
     public void onBindViewHolder(@NonNull AdaptadorArticulos.ArticulosViewHolder articulosViewHolder, int posicion) {
         Articulo item = datos.get(posicion);
-
+        System.out.println(item.getNombre());
         articulosViewHolder.bindArticulo(item);
     }
 
@@ -74,9 +72,8 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         }
 
         public void bindArticulo(Articulo t) {
-            tvid.setText(t.getId());
-            tvtotales.setText(t.getTotales());
+            id.setText(t.getId());
+            totales.setText(t.getTotales());
         }
-
     }
 }
