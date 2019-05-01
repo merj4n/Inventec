@@ -72,8 +72,8 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         }
 
         public void bindArticulo(Articulo t) {
-            tvid.setText(t.getId());
-            tvtotales.setText(t.getTotales());
+            //tvid.setText(t.getId());
+            //tvtotales.setText(t.getTotales());
         }
 
     }

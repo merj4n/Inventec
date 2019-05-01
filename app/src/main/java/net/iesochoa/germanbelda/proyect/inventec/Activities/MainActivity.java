@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import net.iesochoa.germanbelda.proyect.inventec.ADAPTER.AdaptadorArticulos;
+import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ArticulosDbHelper db = new ArticulosDbHelper(this);
 
         //inicialización de la lista de datos de ejemplo
         datos = new ArrayList<>();
