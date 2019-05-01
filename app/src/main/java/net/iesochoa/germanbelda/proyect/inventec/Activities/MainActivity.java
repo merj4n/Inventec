@@ -1,5 +1,6 @@
 package net.iesochoa.germanbelda.proyect.inventec.Activities;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,18 +16,24 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recView;
     private ArrayList<Articulo> datos;
+    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Instanciamos dbhelper para crear la base de datos.
         ArticulosDbHelper db = new ArticulosDbHelper(this);
+        SQLiteDatabase database = db.getWritableDatabase();
+
 
         //inicialización de la lista de datos de ejemplo
         datos = new ArrayList<>();
         for(int i=1; i<=50; i++){
             //int result = Integer.parseInt(number);
             datos.add(new Articulo("215488796","Palo","10"));
+            database.insert("Articulo",null,datos.get(i).toContentValues());
         }
         //Inicialización RecyclerView
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
