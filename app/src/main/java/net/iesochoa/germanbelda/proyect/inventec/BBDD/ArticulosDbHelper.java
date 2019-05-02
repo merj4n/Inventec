@@ -17,7 +17,7 @@ public class ArticulosDbHelper extends SQLiteOpenHelper {
     public class ArticulosContract {
         public abstract class ArticulosEntry implements BaseColumns {
             public static final String TABLE_NAME ="Articulo";
-            public static final String ID = "id";
+            public static final String CODIGO = "codigo";
             public static final String NAME = "nombre";
             public static final String TOTALS = "totales";
         }
@@ -27,10 +27,10 @@ public class ArticulosDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + ArticulosContract.ArticulosEntry.TABLE_NAME + " ("
                 + ArticulosContract.ArticulosEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + ArticulosContract.ArticulosEntry.ID + " TEXT NOT NULL,"
+                + ArticulosContract.ArticulosEntry.CODIGO + " TEXT NOT NULL,"
                 + ArticulosContract.ArticulosEntry.NAME + " TEXT NOT NULL,"
                 + ArticulosContract.ArticulosEntry.TOTALS + " TEXT NOT NULL,"
-                + "UNIQUE (" + ArticulosContract.ArticulosEntry.ID + "))");
+                + "UNIQUE (" + ArticulosContract.ArticulosEntry.CODIGO + "))");
     }
 
     @Override

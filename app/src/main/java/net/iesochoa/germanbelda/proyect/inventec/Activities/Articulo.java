@@ -45,7 +45,7 @@ public class Articulo {
 
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
-        values.put(ArticulosDbHelper.ArticulosContract.ArticulosEntry.ID, id);
+        values.put(ArticulosDbHelper.ArticulosContract.ArticulosEntry.CODIGO, codigo);
         values.put(ArticulosDbHelper.ArticulosContract.ArticulosEntry.NAME, nombre);
         values.put(ArticulosDbHelper.ArticulosContract.ArticulosEntry.TOTALS, totales);
 

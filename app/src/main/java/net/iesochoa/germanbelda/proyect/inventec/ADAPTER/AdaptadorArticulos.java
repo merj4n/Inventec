@@ -38,7 +38,6 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     @Override
     public void onBindViewHolder(@NonNull AdaptadorArticulos.ArticulosViewHolder articulosViewHolder, int posicion) {
         Articulo item = datos.get(posicion);
-        System.out.println(item.getNombre());
         articulosViewHolder.bindArticulo(item);
     }
 
@@ -59,20 +58,25 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     public class ArticulosViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView id;
+        private TextView codigo;
         private TextView totales;
         private ImageView advertencia;
 
         public ArticulosViewHolder(View itemView) {
             super(itemView);
 
-            id = (TextView)itemView.findViewById(R.id.tvId);
+            codigo = (TextView)itemView.findViewById(R.id.tvCodigo);
             totales = (TextView)itemView.findViewById(R.id.tvTotales);
             advertencia = (ImageView)itemView.findViewById(R.id.ivAdvertencia);
         }
 
         public void bindArticulo(Articulo t) {
-            id.setText(t.getId());
+
+            if (!t.getNombre().isEmpty()){
+                codigo.setText(t.getNombre());
+            }else {
+                codigo.setText(t.getCodigo());
+            }
             totales.setText(t.getTotales());
         }
     }
