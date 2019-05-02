@@ -35,14 +35,6 @@ public class Articulo {
         return codigo;
     }
 
-    /*public long saveArticulo(Articulo articulo) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        return sqLiteDatabase.insert(ArticulosContract.ArticulosEntry.TABLE_NAME,
-                null,
-                articulo.toContentValues());
-
-    }*/
-
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
         values.put(ArticulosDbHelper.ArticulosContract.ArticulosEntry.CODIGO, codigo);
