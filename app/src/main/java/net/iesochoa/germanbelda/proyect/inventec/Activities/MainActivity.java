@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Boton flotante
+        //Boton flotante para insertar un nuevo articulo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //LLamo a la actividad encargada de crear el articulo
                 Intent intent = new Intent(MainActivity.this, InsertItem.class);
                 startActivity(intent);
             }
@@ -49,7 +49,12 @@ public class MainActivity extends AppCompatActivity {
         //Inicialización RecyclerView
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
         recView.setHasFixedSize(true);
-
+        AdaptadorArticulos.adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Posición "+recView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
+            }
+        });
         recView.setAdapter(AdaptadorArticulos.adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
     }
