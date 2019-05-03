@@ -1,15 +1,22 @@
 package net.iesochoa.germanbelda.proyect.inventec.Activities;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.ADAPTER.AdaptadorArticulos;
+import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
@@ -18,16 +25,23 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recView;
-    private ArrayList<Articulo> datos;
+    public static ArrayList<Articulo> datos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Instanciamos dbhelper para crear la base de datos.
-        ArticulosDbHelper db = new ArticulosDbHelper(this);
-        SQLiteDatabase database = db.getWritableDatabase();
+        //Boton flotante
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, InsertItem.class);
+                startActivity(intent);
+            }
+        });
 
         //inicialización de la lista de datos de ejemplo
         initArrayDb();
@@ -36,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
         recView.setHasFixedSize(true);
 
-        final AdaptadorArticulos adaptador = new AdaptadorArticulos(datos);
-
-        recView.setAdapter(adaptador);
+        recView.setAdapter(AdaptadorArticulos.adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
     }
+
     //Creación del menu de opciones
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,9 +77,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void initArrayDb(){
+        //Instanciamos dbhelper para crear la base de datos.
+        ArticulosDbHelper db = new ArticulosDbHelper(this);
+        SQLiteDatabase database = db.getWritableDatabase();
 
         datos = new ArrayList<>();
-
+        Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME,null,null,null,null,null,null);
+        while (c.moveToNext()){
+            String codigo = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.CODIGO));
+            String nombre = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.NAME));
+            String totals = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.TOTALS));
+            datos.add(new Articulo(codigo,nombre,totals));
+        }
+        /*
         datos.add(new Articulo("GA-B450M DS3H","Gigabyte B450M DS3H","18"));
         datos.add(new Articulo("911-7B48-001","MSI Z370-A Pro","1"));
         datos.add(new Articulo("911-7B24-003","MSI B360M PRO-VDH","44"));
@@ -119,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         datos.add(new Articulo("BLS8G4D26BFSBK","Memoria Ram Crucial Ballistix Sport LT Single Rank DDR4 2666 PC4-21300 8GB CL16","42"));
         datos.add(new Articulo("BLS4G4D26BFSE","Memoria Ram Crucial Ballistix Sport LT Red DDR4 2666Mhz PC4-21300 4GB CL16","74"));
         datos.add(new Articulo("CMW16GX4M2C3000C15","Corsair Vengeance RGB Pro DDR4 3000 PC4-24000 16GB 2x8GB CL15","62"));
-
+        */
         // Inserto en la base de datos los articulos de mi arrayList
         /*for (Articulo ins:datos) {
             database.insert("Articulo",null,ins.toContentValues());
