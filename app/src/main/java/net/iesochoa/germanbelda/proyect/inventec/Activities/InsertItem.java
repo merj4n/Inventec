@@ -29,11 +29,11 @@ public class InsertItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_item);
 
-        etCodigo = (EditText)findViewById(R.id.etCodigo);
-        etNombre = (EditText)findViewById(R.id.etNombre);
-        etCantidad = (EditText)findViewById(R.id.etCantidad);
-        btAceptar = (Button)findViewById(R.id.btAceptar);
-        btCancelar = (Button)findViewById(R.id.btCancelar);
+        etCodigo = (EditText) findViewById(R.id.etCodigo);
+        etNombre = (EditText) findViewById(R.id.etNombre);
+        etCantidad = (EditText) findViewById(R.id.etCantidad);
+        btAceptar = (Button) findViewById(R.id.btAceptar);
+        btCancelar = (Button) findViewById(R.id.btCancelar);
 
         btAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +41,7 @@ public class InsertItem extends AppCompatActivity {
                 ArticulosDbHelper db = new ArticulosDbHelper(InsertItem.this);
                 SQLiteDatabase database = db.getWritableDatabase();
 
-                if(etCodigo.getText().toString().isEmpty() && etNombre.getText().toString().isEmpty() && etCantidad.getText().toString().isEmpty())
+                if (etCodigo.getText().toString().isEmpty() && etNombre.getText().toString().isEmpty() && etCantidad.getText().toString().isEmpty())
                     finish();
                 else {
                     //Agrego un nuevo articulo a la base de datos
@@ -64,8 +64,6 @@ public class InsertItem extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
 
     }

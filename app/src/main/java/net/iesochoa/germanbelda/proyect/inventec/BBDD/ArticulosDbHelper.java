@@ -14,9 +14,10 @@ public class ArticulosDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
     }
+
     public class ArticulosContract {
         public abstract class ArticulosEntry implements BaseColumns {
-            public static final String TABLE_NAME ="Articulo";
+            public static final String TABLE_NAME = "Articulo";
             public static final String CODIGO = "codigo";
             public static final String NAME = "nombre";
             public static final String TOTALS = "totales";

@@ -25,6 +25,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public AdaptadorArticulos(ArrayList<Articulo> datos) {
         this.datos = datos;
     }
+
     @NonNull
     @Override
     public AdaptadorArticulos.ArticulosViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -55,11 +56,11 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     @Override
     public void onClick(View v) {
-        if(listener != null)
+        if (listener != null)
             listener.onClick(v);
     }
 
-    public class ArticulosViewHolder extends RecyclerView.ViewHolder{
+    public class ArticulosViewHolder extends RecyclerView.ViewHolder {
 
         private TextView codigo;
         private TextView totales;
@@ -68,16 +69,16 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         public ArticulosViewHolder(View itemView) {
             super(itemView);
 
-            codigo = (TextView)itemView.findViewById(R.id.tvCodigo);
-            totales = (TextView)itemView.findViewById(R.id.tvTotales);
-            advertencia = (ImageView)itemView.findViewById(R.id.ivAdvertencia);
+            codigo = (TextView) itemView.findViewById(R.id.tvCodigo);
+            totales = (TextView) itemView.findViewById(R.id.tvTotales);
+            advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
         }
 
         public void bindArticulo(Articulo t) {
 
-            if (!t.getNombre().isEmpty()){
+            if (!t.getNombre().isEmpty()) {
                 codigo.setText(t.getNombre());
-            }else {
+            } else {
                 codigo.setText(t.getCodigo());
             }
             totales.setText(t.getTotales());

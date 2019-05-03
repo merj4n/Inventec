@@ -49,50 +49,51 @@ public class MainActivity extends AppCompatActivity {
         //Inicialización RecyclerView
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
         recView.setHasFixedSize(true);
+        //Cuando pulsas sobre cualquiera de los articulos
         AdaptadorArticulos.adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Posición "+recView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Posición " + recView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
             }
         });
         recView.setAdapter(AdaptadorArticulos.adaptador);
-        recView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
     //Creación del menu de opciones
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu_activity,menu);
+        getMenuInflater().inflate(R.menu.menu_activity, menu);
 
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
+        int id = item.getItemId();
 
-        if(id==R.id.itAjustes){
+        if (id == R.id.itAjustes) {
             Toast.makeText(this, "Boton Ajustes pulsado!", Toast.LENGTH_SHORT).show();
         }
-        if(id==R.id.itAcercade) {
+        if (id == R.id.itAcercade) {
             Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void initArrayDb(){
+    public void initArrayDb() {
         //Instanciamos dbhelper para crear la base de datos.
         ArticulosDbHelper db = new ArticulosDbHelper(this);
         SQLiteDatabase database = db.getWritableDatabase();
 
         datos = new ArrayList<>();
-        Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME,null,null,null,null,null,null);
-        while (c.moveToNext()){
+        Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME, null, null, null, null, null, null);
+        while (c.moveToNext()) {
             String codigo = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.CODIGO));
             String nombre = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.NAME));
             String totals = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.TOTALS));
-            datos.add(new Articulo(codigo,nombre,totals));
+            datos.add(new Articulo(codigo, nombre, totals));
         }
         /*
         datos.add(new Articulo("GA-B450M DS3H","Gigabyte B450M DS3H","18"));
