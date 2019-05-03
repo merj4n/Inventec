@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.ADAPTER.AdaptadorArticulos;
 import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosDbHelper;
@@ -37,6 +40,27 @@ public class MainActivity extends AppCompatActivity {
 
         recView.setAdapter(adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+    }
+    //Creación del menu de opciones
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_activity,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+
+        if(id==R.id.itAjustes){
+            Toast.makeText(this, "Boton Ajustes pulsado!", Toast.LENGTH_SHORT).show();
+        }
+        if(id==R.id.itAcercade) {
+            Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void initArrayDb(){
