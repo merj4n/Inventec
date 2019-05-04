@@ -3,18 +3,14 @@ package net.iesochoa.germanbelda.proyect.inventec.Activities;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import net.iesochoa.germanbelda.proyect.inventec.ADAPTER.AdaptadorArticulos;
 import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.R;
-
-import static net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity.datos;
 
 public class InsertItem extends AppCompatActivity {
 
@@ -44,12 +40,12 @@ public class InsertItem extends AppCompatActivity {
                 if (etCodigo.getText().toString().isEmpty() && etNombre.getText().toString().isEmpty() && etCantidad.getText().toString().isEmpty())
                     finish();
                 else {
-                    //Agrego un nuevo articulo a la base de datos
+                    //Agrego un nuevo articulo a la base de lista
                     Articulo nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(), etCantidad.getText().toString());
                     database.insert("Articulo", null, nuevo.toContentValues());
                     //Agrego el articulo a la ArrayList
-                    MainActivity.datos.add(nuevo);
-                    int pos = MainActivity.datos.indexOf(nuevo);
+                    MainActivity.lista.add(nuevo);
+                    int pos = MainActivity.lista.indexOf(nuevo);
                     Log.i("Posicion", "-----> " + pos);
                     //Notifico al adaptador la posicion del nuevo articulo
                     AdaptadorArticulos.adaptador.notifyItemInserted(pos);

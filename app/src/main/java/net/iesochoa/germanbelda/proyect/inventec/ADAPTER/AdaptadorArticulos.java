@@ -1,5 +1,6 @@
 package net.iesochoa.germanbelda.proyect.inventec.ADAPTER;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.Activities.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity;
@@ -14,13 +16,13 @@ import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
 
-import static net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity.datos;
+import static net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity.lista;
 
 public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.ArticulosViewHolder>
         implements View.OnClickListener {
     private ArrayList<Articulo> datos;
     private View.OnClickListener listener;
-    public static AdaptadorArticulos adaptador = new AdaptadorArticulos(MainActivity.datos);
+    public static AdaptadorArticulos adaptador = new AdaptadorArticulos(lista);
 
     public AdaptadorArticulos(ArrayList<Articulo> datos) {
         this.datos = datos;
