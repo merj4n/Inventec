@@ -1,5 +1,6 @@
 package net.iesochoa.germanbelda.proyect.inventec.ADAPTER;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,7 +42,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     @Override
     public void onBindViewHolder(@NonNull AdaptadorArticulos.ArticulosViewHolder articulosViewHolder, int posicion) {
         Articulo item = datos.get(posicion);
-        articulosViewHolder.bindArticulo(item);
+        articulosViewHolder.bindArticulo(item,posicion);
     }
 
     @Override
@@ -67,6 +68,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         private TextView codigo;
         private TextView totales;
         private ImageView advertencia;
+        int colorA,colorB;
 
         public ArticulosViewHolder(View itemView) {
             super(itemView);
@@ -77,7 +79,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
         }
 
-        public void bindArticulo(Articulo t) {
+        public void bindArticulo(Articulo t,int posicion) {
 
             if (!t.getNombre().isEmpty()) {
                 codigo.setText(t.getNombre());
@@ -88,6 +90,14 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             //Muestro el icono si las cantidades son diferentes
             if(t.getTotales().equals(leido.getText().toString())){
                 advertencia.setVisibility(View.INVISIBLE);
+            }
+            colorA=Integer.parseInt(leido.getText().toString());
+            colorB=Integer.parseInt(totales.getText().toString());
+            if(colorA>colorB) {
+                leido.setTextColor(Color.parseColor("#34CA30"));
+            }
+            if(colorA<colorB){
+                leido.setTextColor(Color.parseColor("#F50606"));
             }
         }
     }

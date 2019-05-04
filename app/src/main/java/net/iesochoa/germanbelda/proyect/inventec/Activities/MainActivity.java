@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
         recView.setAdapter(AdaptadorArticulos.adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
     }
     //Refresco los cambios del adaptador cuando vuelvo a la actividad principal, por si inserto un elemento nuevo o elimino uno
     @Override
