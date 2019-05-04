@@ -57,10 +57,13 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public void onClick(View v) {
         if (listener != null)
             listener.onClick(v);
+
     }
+
 
     public class ArticulosViewHolder extends RecyclerView.ViewHolder {
 
+        private TextView leido;
         private TextView codigo;
         private TextView totales;
         private ImageView advertencia;
@@ -68,6 +71,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         public ArticulosViewHolder(View itemView) {
             super(itemView);
 
+            leido = (TextView) itemView.findViewById(R.id.tvLeidos);
             codigo = (TextView) itemView.findViewById(R.id.tvCodigo);
             totales = (TextView) itemView.findViewById(R.id.tvTotales);
             advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
@@ -81,6 +85,10 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
                 codigo.setText(t.getCodigo());
             }
             totales.setText(t.getTotales());
+            //Muestro el icono si las cantidades son diferentes
+            if(t.getTotales().equals(leido.getText().toString())){
+                advertencia.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }

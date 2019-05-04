@@ -53,11 +53,12 @@
         android:id="@+id/ivAdvertencia"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:tint="#FF9800"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/checkbox_on_background" />
+        app:srcCompat="@android:drawable/stat_sys_warning" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
