@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //inicialización de la lista de lista de ejemplo
+        //inicialización de la lista de ejemplo
         initArrayDb();
 
         //Boton flotante para insertar un nuevo articulo
@@ -58,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
         });
         recView.setAdapter(AdaptadorArticulos.adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+    //Refresco los cambios del adaptador cuando vuelvo a la actividad principal, por si inserto un elemento nuevo o elimino uno
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AdaptadorArticulos.adaptador.notifyDataSetChanged();
     }
 
     //Creación del menu de opciones
