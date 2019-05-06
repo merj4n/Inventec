@@ -1,9 +1,8 @@
 package net.iesochoa.germanbelda.proyect.inventec.ADAPTER;
 
-import android.content.Context;
+
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,18 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.iesochoa.germanbelda.proyect.inventec.Activities.Articulo;
-import net.iesochoa.germanbelda.proyect.inventec.Activities.EdicionArticulo;
-import net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
 
-import static net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity.lista;
-
 public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.ArticulosViewHolder> implements View.OnClickListener {
     private ArrayList<Articulo> datos;
     private View.OnClickListener listener;
-    public static AdaptadorArticulos adaptador = new AdaptadorArticulos(lista);
 
 
     public AdaptadorArticulos(ArrayList<Articulo> datos) {
@@ -42,10 +36,30 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdaptadorArticulos.ArticulosViewHolder articulosViewHolder, int posicion) {
+    public void onBindViewHolder(@NonNull ArticulosViewHolder articulosViewHolder, int posicion) {
 
         Articulo item = datos.get(posicion);
-        articulosViewHolder.bindArticulo(item, posicion);
+        if (!item.getNombre().isEmpty()) {
+            articulosViewHolder.codigo.setText(item.getNombre());
+        } else {
+            articulosViewHolder.codigo.setText(item.getCodigo());
+        }
+        articulosViewHolder.totales.setText(item.getTotales());
+        //Muestro el icono si las cantidades son diferentes
+        if (item.getTotales().equals(articulosViewHolder.leido.getText().toString())) {
+            articulosViewHolder.advertencia.setVisibility(View.INVISIBLE);
+        } else {
+            articulosViewHolder.advertencia.setVisibility(View.VISIBLE);
+        }
+        articulosViewHolder.colorA = Integer.parseInt(articulosViewHolder.leido.getText().toString());
+        articulosViewHolder.colorB = Integer.parseInt(articulosViewHolder.totales.getText().toString());
+        if (articulosViewHolder.colorA > articulosViewHolder.colorB) {
+            articulosViewHolder.leido.setTextColor(Color.parseColor("#34CA30"));
+        } else if (articulosViewHolder.colorA < articulosViewHolder.colorB) {
+            articulosViewHolder.leido.setTextColor(Color.parseColor("#F50606"));
+        } else {
+            articulosViewHolder.leido.setTextColor(Color.GRAY);
+        }
     }
 
     @Override
@@ -76,38 +90,11 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         public ArticulosViewHolder(View itemView) {
             super(itemView);
 
-            leido       = (TextView) itemView.findViewById(R.id.tvLeidos);
-            codigo      = (TextView) itemView.findViewById(R.id.tvCodigo);
-            totales     = (TextView) itemView.findViewById(R.id.tvTotales);
+            leido = (TextView) itemView.findViewById(R.id.tvLeidos);
+            codigo = (TextView) itemView.findViewById(R.id.tvCodigo);
+            totales = (TextView) itemView.findViewById(R.id.tvTotales);
             advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
         }
 
-        public void bindArticulo(Articulo t, int posicion) {
-
-            if (!t.getNombre().isEmpty()) {
-                codigo.setText(t.getNombre());
-            } else {
-                codigo.setText(t.getCodigo());
-            }
-            totales.setText(t.getTotales());
-            //Muestro el icono si las cantidades son diferentes
-            if (t.getTotales().equals(leido.getText().toString())) {
-                advertencia.setVisibility(View.INVISIBLE);
-            }
-            colorA = Integer.parseInt(leido.getText().toString());
-            colorB = Integer.parseInt(totales.getText().toString());
-            /*if (colorA > colorB) {
-                leido.setTextColor(ContextCompat.getColor(res.color.,R.color.GreenUp));
-            }
-            if (colorA < colorB) {
-                leido.setTextColor(ContextCompat.getColor(this,R.color.RedDown));
-            }*/
-            if(colorA>colorB) {
-                leido.setTextColor(Color.parseColor("#34CA30"));
-            }
-            if(colorA<colorB){
-                leido.setTextColor(Color.parseColor("#F50606"));
-            }
-        }
     }
 }

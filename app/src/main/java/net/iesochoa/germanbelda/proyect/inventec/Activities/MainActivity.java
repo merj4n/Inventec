@@ -1,11 +1,11 @@
 package net.iesochoa.germanbelda.proyect.inventec.Activities;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -25,10 +25,15 @@ import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
 
+import static net.iesochoa.germanbelda.proyect.inventec.Activities.InsertItem.EXTRA_ITEM_NUEVO;
+
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_INSERTAR_ITEM = 2222;
     private RecyclerView recView;
-    public static ArrayList<Articulo> lista;
+    public ArrayList<Articulo> lista;
+    public AdaptadorArticulos adaptador;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,36 +46,56 @@ public class MainActivity extends AppCompatActivity {
         //Boton flotante para insertar un nuevo articulo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
                 //LLamo a la actividad encargada de crear el articulo
                 Intent intent = new Intent(MainActivity.this, InsertItem.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
+
+        adaptador = new AdaptadorArticulos(lista);
 
         //Inicialización RecyclerView
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
         recView.setHasFixedSize(true);
         //Cuando pulsas sobre cualquiera de los articulos
-        AdaptadorArticulos.adaptador.setOnClickListener(new View.OnClickListener() {
+        adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position=recView.getChildAdapterPosition(v);
+                int position = recView.getChildAdapterPosition(v);
                 Toast.makeText(MainActivity.this, " Posición " + recView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
                 eliminarArt(position);
             }
         });
-        recView.setAdapter(AdaptadorArticulos.adaptador);
+        recView.setAdapter(adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQUEST_INSERTAR_ITEM:
+                if (resultCode == RESULT_OK) {
+                    Articulo articulo = data.getParcelableExtra(EXTRA_ITEM_NUEVO);
+                    lista.add(articulo);
+                    adaptador.notifyDataSetChanged();
+                }
+                break;
+            default:
+        }
     }
 
     //Refresco los cambios del adaptador cuando vuelvo a la actividad principal, por si inserto un elemento nuevo o elimino uno
     @Override
     protected void onResume() {
         super.onResume();
-        AdaptadorArticulos.adaptador.notifyDataSetChanged();
+        adaptador.notifyDataSetChanged();
     }
 
     //Creación del menu de opciones
@@ -192,32 +217,31 @@ public class MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        removeAt(position);
-                                        finish();
-                                    }
-                                });
+                                removeAt(position);
+                                dialog.dismiss();
                             }
                         })
                 .setNegativeButton("CANCELAR",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                });
+                                dialog.cancel();
                             }
                         });
         builder.show();
     }
+
     public void removeAt(int position) {
-        lista.remove(position);
-        AdaptadorArticulos.adaptador.notifyItemRemoved(position);
-        AdaptadorArticulos.adaptador.notifyItemRangeChanged(position, lista.size());
+        ArticulosDbHelper db = new ArticulosDbHelper(this);
+        SQLiteDatabase database = db.getWritableDatabase();
+        Articulo articulo = lista.get(position);
+        lista.remove(articulo);
+        String[] args = {
+                articulo.getCodigo()
+        };
+        Log.e("Error", args.toString());
+        database.delete(ArticulosContract.ArticulosEntry.TABLE_NAME, "CODIGO=?", args);
+        adaptador.notifyDataSetChanged();
+
     }
 }

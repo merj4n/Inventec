@@ -1,12 +1,14 @@
 package net.iesochoa.germanbelda.proyect.inventec.Activities;
 
 import android.content.ContentValues;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosDbHelper;
 
 import java.util.UUID;
 
-public class Articulo {
+public class Articulo implements Parcelable {
     private String id;
     private String codigo;
     private String nombre;
@@ -43,4 +45,36 @@ public class Articulo {
 
         return values;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.codigo);
+        dest.writeString(this.nombre);
+        dest.writeString(this.totales);
+    }
+
+    protected Articulo(Parcel in) {
+        this.id = in.readString();
+        this.codigo = in.readString();
+        this.nombre = in.readString();
+        this.totales = in.readString();
+    }
+
+    public static final Parcelable.Creator<Articulo> CREATOR = new Parcelable.Creator<Articulo>() {
+        @Override
+        public Articulo createFromParcel(Parcel source) {
+            return new Articulo(source);
+        }
+
+        @Override
+        public Articulo[] newArray(int size) {
+            return new Articulo[size];
+        }
+    };
 }
