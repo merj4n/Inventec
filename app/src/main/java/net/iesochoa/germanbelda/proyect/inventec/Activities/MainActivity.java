@@ -56,22 +56,22 @@ public class MainActivity extends AppCompatActivity {
         AdaptadorArticulos.adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this," Posición " + recView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
-                eliminarArt();
+                int position=recView.getChildAdapterPosition(v);
+                Toast.makeText(MainActivity.this, " Posición " + recView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
+                eliminarArt(position);
             }
         });
         recView.setAdapter(AdaptadorArticulos.adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
     }
+
     //Refresco los cambios del adaptador cuando vuelvo a la actividad principal, por si inserto un elemento nuevo o elimino uno
     @Override
     protected void onResume() {
         super.onResume();
         AdaptadorArticulos.adaptador.notifyDataSetChanged();
     }
-
-
 
     //Creación del menu de opciones
     @Override
@@ -97,21 +97,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void initArrayDb() {
         ArticulosDbHelper db = new ArticulosDbHelper(this);
-        SQLiteDatabase database  = db.getWritableDatabase();
+        SQLiteDatabase database = db.getWritableDatabase();
         lista = new ArrayList<>();
         //Como siempre creo la base de datos lo que compruebo para rellenar el array es si el numero de elementos es distinto de 0
         // si es así, recorro los elementos de la base de datos y relleno el array.
         Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME, null, null, null, null, null, null);
 
-        if (!(c.getCount()==0)) {
+        if (!(c.getCount() == 0)) {
             while (c.moveToNext()) {
                 String codigo = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.CODIGO));
                 String nombre = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.NAME));
                 String totals = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.TOTALS));
                 lista.add(new Articulo(codigo, nombre, totals));
-                Log.e("Error", nombre +database.getPath());
+                Log.e("Error", nombre + database.getPath());
             }
-        }else{
+        } else {
             lista.add(new Articulo("GA-B450M DS3H", "Gigabyte B450M DS3H", "12"));
             lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "12"));
             lista.add(new Articulo("911-7B24-003", "MSI B360M PRO-VDH", "12"));
@@ -167,51 +167,57 @@ public class MainActivity extends AppCompatActivity {
 
             // Inserto en la base de lista los articulos de mi arrayList
             for (Articulo ins : lista) {
-                Log.e("Error", ins.getNombre()+database.getPath());
+                Log.e("Error", ins.getNombre() + database.getPath());
                 database.insert("Articulo", null, ins.toContentValues());
             }
         }
     }
-        public static boolean checkDataBase (String Database_path){
-            SQLiteDatabase checkDB = null;
-            try {
-                checkDB = SQLiteDatabase.openDatabase(Database_path, null, SQLiteDatabase.OPEN_READONLY);
-                checkDB.close();
-            } catch (SQLiteException e) {
-                Log.e("Error", "No existe la base de datos " + e.getMessage());
-            }
-            return checkDB != null;
-        }
-        public void eliminarArt(){
-            final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("Eliminar artículo")
-                    .setMessage("¿Quieres eliminar este artículo del inventario?")
-                    .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    });
-                                }
-                            })
-                    .setNegativeButton("CANCELAR",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                        }
-                                    });
-                                }
-                            });
 
-            builder.show();
+    public static boolean checkDataBase(String Database_path) {
+        SQLiteDatabase checkDB = null;
+        try {
+            checkDB = SQLiteDatabase.openDatabase(Database_path, null, SQLiteDatabase.OPEN_READONLY);
+            checkDB.close();
+        } catch (SQLiteException e) {
+            Log.e("Error", "No existe la base de datos " + e.getMessage());
         }
+        return checkDB != null;
+    }
 
+    public void eliminarArt(final int position) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Eliminar artículo")
+                .setMessage("¿Quieres eliminar este artículo del inventario?")
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        removeAt(position);
+                                        finish();
+                                    }
+                                });
+                            }
+                        })
+                .setNegativeButton("CANCELAR",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+                            }
+                        });
+        builder.show();
+    }
+    public void removeAt(int position) {
+        lista.remove(position);
+        AdaptadorArticulos.adaptador.notifyItemRemoved(position);
+        AdaptadorArticulos.adaptador.notifyItemRangeChanged(position, lista.size());
+    }
 }

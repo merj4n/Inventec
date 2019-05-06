@@ -1,7 +1,9 @@
 package net.iesochoa.germanbelda.proyect.inventec.ADAPTER;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +12,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.iesochoa.germanbelda.proyect.inventec.Activities.Articulo;
+import net.iesochoa.germanbelda.proyect.inventec.Activities.EdicionArticulo;
+import net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
 
 import static net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity.lista;
 
-public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.ArticulosViewHolder>
-        implements View.OnClickListener {
+public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.ArticulosViewHolder> implements View.OnClickListener {
     private ArrayList<Articulo> datos;
     private View.OnClickListener listener;
     public static AdaptadorArticulos adaptador = new AdaptadorArticulos(lista);
+
 
     public AdaptadorArticulos(ArrayList<Articulo> datos) {
         this.datos = datos;
@@ -31,9 +35,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public AdaptadorArticulos.ArticulosViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_edicion_articulo, viewGroup, false);
-
         itemView.setOnClickListener(this);
-
         ArticulosViewHolder articulovh = new ArticulosViewHolder(itemView);
 
         return articulovh;
@@ -41,16 +43,19 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     @Override
     public void onBindViewHolder(@NonNull AdaptadorArticulos.ArticulosViewHolder articulosViewHolder, int posicion) {
+
         Articulo item = datos.get(posicion);
-        articulosViewHolder.bindArticulo(item,posicion);
+        articulosViewHolder.bindArticulo(item, posicion);
     }
 
     @Override
     public int getItemCount() {
+
         return datos.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener) {
+
         this.listener = listener;
     }
 
@@ -58,9 +63,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public void onClick(View v) {
         if (listener != null)
             listener.onClick(v);
-
     }
-
 
     public class ArticulosViewHolder extends RecyclerView.ViewHolder {
 
@@ -68,18 +71,18 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         private TextView codigo;
         private TextView totales;
         private ImageView advertencia;
-        int colorA,colorB;
+        int colorA, colorB;
 
         public ArticulosViewHolder(View itemView) {
             super(itemView);
 
-            leido = (TextView) itemView.findViewById(R.id.tvLeidos);
-            codigo = (TextView) itemView.findViewById(R.id.tvCodigo);
-            totales = (TextView) itemView.findViewById(R.id.tvTotales);
+            leido       = (TextView) itemView.findViewById(R.id.tvLeidos);
+            codigo      = (TextView) itemView.findViewById(R.id.tvCodigo);
+            totales     = (TextView) itemView.findViewById(R.id.tvTotales);
             advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
         }
 
-        public void bindArticulo(Articulo t,int posicion) {
+        public void bindArticulo(Articulo t, int posicion) {
 
             if (!t.getNombre().isEmpty()) {
                 codigo.setText(t.getNombre());
@@ -88,11 +91,17 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             }
             totales.setText(t.getTotales());
             //Muestro el icono si las cantidades son diferentes
-            if(t.getTotales().equals(leido.getText().toString())){
+            if (t.getTotales().equals(leido.getText().toString())) {
                 advertencia.setVisibility(View.INVISIBLE);
             }
-            colorA=Integer.parseInt(leido.getText().toString());
-            colorB=Integer.parseInt(totales.getText().toString());
+            colorA = Integer.parseInt(leido.getText().toString());
+            colorB = Integer.parseInt(totales.getText().toString());
+            /*if (colorA > colorB) {
+                leido.setTextColor(ContextCompat.getColor(res.color.,R.color.GreenUp));
+            }
+            if (colorA < colorB) {
+                leido.setTextColor(ContextCompat.getColor(this,R.color.RedDown));
+            }*/
             if(colorA>colorB) {
                 leido.setTextColor(Color.parseColor("#34CA30"));
             }
