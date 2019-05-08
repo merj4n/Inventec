@@ -1,4 +1,4 @@
-package net.iesochoa.germanbelda.proyect.inventec.BBDD;
+package net.iesochoa.germanbelda.proyect.inventec.Database;
 
 import android.provider.BaseColumns;
 

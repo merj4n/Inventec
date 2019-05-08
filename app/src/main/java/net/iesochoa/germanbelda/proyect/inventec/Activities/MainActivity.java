@@ -18,9 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import net.iesochoa.germanbelda.proyect.inventec.ADAPTER.AdaptadorArticulos;
-import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosContract;
-import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosDbHelper;
+import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
+import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
+import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
 
-
             @Override
             public void onClick(View v) {
                 //LLamo a la actividad encargada de crear el articulo
@@ -72,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         });
         recView.setAdapter(adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
     }
 
     @Override
@@ -136,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 lista.add(new Articulo(codigo, nombre, totals));
                 Log.e("Error", nombre + database.getPath());
             }
+            c.close();
         } else {
             lista.add(new Articulo("GA-B450M DS3H", "Gigabyte B450M DS3H", "12"));
             lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "12"));
@@ -147,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
             lista.add(new Articulo("90MB0ZZ0-M0EAY0", "Asus Prime Z370-P II", "11"));
             lista.add(new Articulo("GAB45ARSM-00-G", "Gigabyte B450 AORUS M", "12"));
             lista.add(new Articulo("911-7B51-007", "MSI Mpg Z390 Gaming Plus", "12"));
-            //lista.add(new Articulo("BX80684I58400","Intel Core i5-8400 2.8GHz BOX","-2"));
             lista.add(new Articulo("BX80684I58400", "", "-2"));
             lista.add(new Articulo("YD2600BBAFBOX", "Procesador AMD Ryzen 5 2600 3.4 Ghz", "12"));
             lista.add(new Articulo("BX80684I78700", "Intel Core i7-8700 3.2Ghz BOX", "12"));
@@ -239,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
         String[] args = {
                 articulo.getCodigo()
         };
-        Log.e("Error", args.toString());
         database.delete(ArticulosContract.ArticulosEntry.TABLE_NAME, "CODIGO=?", args);
         adaptador.notifyDataSetChanged();
 

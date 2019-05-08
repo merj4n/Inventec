@@ -1,4 +1,4 @@
-package net.iesochoa.germanbelda.proyect.inventec.ADAPTER;
+package net.iesochoa.germanbelda.proyect.inventec.Adapter;
 
 
 import android.graphics.Color;
@@ -51,6 +51,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         } else {
             articulosViewHolder.advertencia.setVisibility(View.VISIBLE);
         }
+        //Establezco el color del texto para los articulos leidos
         articulosViewHolder.colorA = Integer.parseInt(articulosViewHolder.leido.getText().toString());
         articulosViewHolder.colorB = Integer.parseInt(articulosViewHolder.totales.getText().toString());
         if (articulosViewHolder.colorA > articulosViewHolder.colorB) {
@@ -95,6 +96,5 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             totales = (TextView) itemView.findViewById(R.id.tvTotales);
             advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
         }
-
     }
 }

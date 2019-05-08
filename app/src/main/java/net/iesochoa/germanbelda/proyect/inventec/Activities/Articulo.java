@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import net.iesochoa.germanbelda.proyect.inventec.BBDD.ArticulosDbHelper;
+import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 
 import java.util.UUID;
 
