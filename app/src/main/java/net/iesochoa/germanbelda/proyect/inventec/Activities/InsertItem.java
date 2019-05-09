@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
+import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 public class InsertItem extends AppCompatActivity {
@@ -41,6 +42,7 @@ public class InsertItem extends AppCompatActivity {
                 ArticulosDbHelper db = new ArticulosDbHelper(InsertItem.this);
                 SQLiteDatabase database = db.getWritableDatabase();
                 Articulo nuevo;
+                String codigo;
                 if (etCodigo.getText().toString().equals(""))
                     Toast.makeText(InsertItem.this, "Necesitas introducir el codigo al menos", Toast.LENGTH_LONG).show();
                 else {
@@ -51,20 +53,13 @@ public class InsertItem extends AppCompatActivity {
                         nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(), etCantidad.getText().toString());
                     }
                     //Recorro la base de datos comprobando si existe el articulo
-                    String sql = "SELECT * FROM ARTICULO WHERE CODIGO=?";
-                    String[] args = {
-                            nuevo.getCodigo()
-                    };
-                    Cursor c = database.rawQuery(sql, args);
-                    if (c.moveToFirst()) {
-                        String codigo = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.CODIGO));
+                    if (DbAccess.findArt(database,db,nuevo)) {
+                        Toast.makeText(InsertItem.this, "El articulo "+nuevo.getCodigo()+" ya existe", Toast.LENGTH_LONG).show();
                         setResult(RESULT_CANCELED);
-                        c.close();
-                        Toast.makeText(InsertItem.this, "El articulo " + codigo + " ya existe", Toast.LENGTH_LONG).show();
                         finish();
 
                     }else {
-                        database.insert(ArticulosContract.ArticulosEntry.TABLE_NAME, null, nuevo.toContentValues());
+                        DbAccess.insertArt(database,db,nuevo);
                         //Agrego el articulo a la ArrayList
                         Intent intent = new Intent();
                         intent.putExtra(EXTRA_ITEM_NUEVO, nuevo);
