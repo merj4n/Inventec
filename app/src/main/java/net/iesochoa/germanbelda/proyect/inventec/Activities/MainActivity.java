@@ -30,6 +30,7 @@ import static net.iesochoa.germanbelda.proyect.inventec.Activities.InsertItem.EX
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_INSERTAR_ITEM = 2222;
+    private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
     private RecyclerView recView;
     public ArrayList<Articulo> lista;
     public AdaptadorArticulos adaptador;
@@ -54,6 +55,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
+        if(savedInstanceState != null) {
+            lista = savedInstanceState.getParcelableArrayList(ARRAYLIST_DATA);
+        }else{
+            //inicialización de la lista de ejemplo
+            initArrayDb();
+        }
+
 
         adaptador = new AdaptadorArticulos(lista);
 
@@ -65,14 +73,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int position = recView.getChildAdapterPosition(v);
-                Toast.makeText(MainActivity.this, " Posición " + recView.getChildAdapterPosition(v), Toast.LENGTH_SHORT).show();
                 eliminarArt(position);
             }
         });
         recView.setAdapter(adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
+    // Mantener el estado de los datos de la actividad cuando giras el movil
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
 
+        savedInstanceState.putParcelableArrayList(ARRAYLIST_DATA, lista);
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
