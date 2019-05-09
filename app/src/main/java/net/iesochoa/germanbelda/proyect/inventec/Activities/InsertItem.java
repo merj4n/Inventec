@@ -59,8 +59,8 @@ public class InsertItem extends AppCompatActivity {
                         finish();
 
                     }else {
+                        //Agrego el articulo a la ArrayList y comunico el resultado
                         DbAccess.insertArt(database,db,nuevo);
-                        //Agrego el articulo a la ArrayList
                         Intent intent = new Intent();
                         intent.putExtra(EXTRA_ITEM_NUEVO, nuevo);
                         setResult(RESULT_OK, intent);
