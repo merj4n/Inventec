@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
@@ -35,15 +37,22 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recView;
     public ArrayList<Articulo> lista;
     public AdaptadorArticulos adaptador;
-
+    private RadioButton rbTodos;
+    private RadioButton rbAlerta;
+    private RadioGroup rgOpciones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //inicialización de la lista de ejemplo
-        initArrayDb();
+        //Compruebo el estado de la actividad primero
+        if(savedInstanceState != null) {
+            lista = savedInstanceState.getParcelableArrayList(ARRAYLIST_DATA);
+        }else{
+            //inicialización de la lista de ejemplo
+            initArrayDb();
+        }
 
         //Boton flotante para insertar un nuevo articulo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
@@ -56,12 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
-        if(savedInstanceState != null) {
-            lista = savedInstanceState.getParcelableArrayList(ARRAYLIST_DATA);
-        }else{
-            //inicialización de la lista de ejemplo
-            initArrayDb();
-        }
 
         adaptador = new AdaptadorArticulos(lista);
 
