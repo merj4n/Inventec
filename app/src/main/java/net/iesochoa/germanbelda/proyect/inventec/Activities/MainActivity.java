@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -12,12 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
@@ -40,11 +40,18 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbTodos;
     private RadioButton rbAlerta;
     private RadioGroup rgOpciones;
+    private EditText etinputCodigo;
+    private TextView tvTitulo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        etinputCodigo = (EditText)findViewById(R.id.etInputCodigo);
+        tvTitulo = (TextView)findViewById(R.id.tvTitulo);
+        etinputCodigo.setVisibility(View.INVISIBLE);
+
 
         //Compruebo el estado de la actividad primero
         if(savedInstanceState != null) {
@@ -60,9 +67,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                if (!etinputCodigo.isActivated()) {
+                    etinputCodigo.setActivated(true);
+                    tvTitulo.setVisibility(View.INVISIBLE);
+                    etinputCodigo.setVisibility(View.VISIBLE);
+                }else {
+                    etinputCodigo.setActivated(false);
+                    tvTitulo.setVisibility(View.VISIBLE);
+                    etinputCodigo.setVisibility(View.INVISIBLE);
+                }
                 //LLamo a la actividad encargada de crear el articulo
-                Intent intent = new Intent(MainActivity.this, InsertItem.class);
-                startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
+
+                //Intent intent = new Intent(MainActivity.this, InsertItem.class);
+                //startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
 
