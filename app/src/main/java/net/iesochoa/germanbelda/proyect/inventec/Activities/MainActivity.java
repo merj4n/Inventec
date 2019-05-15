@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.nfc.tech.NfcBarcode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etinputCodigo;
     private TextView tvTitulo;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +69,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if (!etinputCodigo.isActivated()) {
-                    etinputCodigo.setActivated(true);
+                if (!etinputCodigo.isShown()) {
                     tvTitulo.setVisibility(View.INVISIBLE);
                     etinputCodigo.setVisibility(View.VISIBLE);
+                    etinputCodigo.setFocusable(true);
+                    etinputCodigo.requestFocus();
                 }else {
-                    etinputCodigo.setActivated(false);
                     tvTitulo.setVisibility(View.VISIBLE);
                     etinputCodigo.setVisibility(View.INVISIBLE);
+                    etinputCodigo.setFocusable(false);
                 }
                 //LLamo a la actividad encargada de crear el articulo
 
