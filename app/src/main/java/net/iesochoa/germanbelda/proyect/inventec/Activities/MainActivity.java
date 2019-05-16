@@ -70,14 +70,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!etinputCodigo.isShown()) {
-                    tvTitulo.setVisibility(View.INVISIBLE);
+                    tvTitulo.setVisibility(View.GONE);
                     etinputCodigo.setVisibility(View.VISIBLE);
-                    etinputCodigo.setFocusable(true);
                     etinputCodigo.requestFocus();
+                    etinputCodigo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View v, boolean hasFocus) {
+                            ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
+                            SQLiteDatabase database = db.getWritableDatabase();
+                            System.out.println(etinputCodigo.getText().toString());
+
+                            Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"Juan","1");
+                            if(!lista.contains(articulo)) {
+                                lista.add(articulo);
+                                DbAccess.insertArt(database,db,articulo);
+                                etinputCodigo.setText("");
+                            }
+
+                        }
+                    });
+                    adaptador.notifyDataSetChanged();
                 }else {
                     tvTitulo.setVisibility(View.VISIBLE);
-                    etinputCodigo.setVisibility(View.INVISIBLE);
-                    etinputCodigo.setFocusable(false);
+                    etinputCodigo.setVisibility(View.GONE);
                 }
                 //LLamo a la actividad encargada de crear el articulo
 
