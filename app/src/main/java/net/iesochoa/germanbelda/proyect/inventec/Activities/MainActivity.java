@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recView;
     public ArrayList<Articulo> lista;
     public AdaptadorArticulos adaptador;
-    private RadioButton rbTodos;
-    private RadioButton rbAlerta;
-    private RadioGroup rgOpciones;
     private EditText etinputCodigo;
     private TextView tvTitulo;
 
@@ -70,21 +68,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!etinputCodigo.isShown()) {
-                    tvTitulo.setVisibility(View.GONE);
+                    tvTitulo.setVisibility(View.INVISIBLE);
                     etinputCodigo.setVisibility(View.VISIBLE);
+                    etinputCodigo.setInputType(InputType.TYPE_NULL);//Dejo el teclado oculto para este edittext
                     etinputCodigo.requestFocus();
+
                     etinputCodigo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View v, boolean hasFocus) {
                             ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
                             SQLiteDatabase database = db.getWritableDatabase();
-                            System.out.println(etinputCodigo.getText().toString());
 
                             Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"Juan","1");
-                            if(!lista.contains(articulo)) {
-                                lista.add(articulo);
-                                DbAccess.insertArt(database,db,articulo);
-                                etinputCodigo.setText("");
+                            if(hasFocus){
+                                if(!DbAccess.findArt(database,db,articulo)) {
+                                    lista.add(articulo);
+                                    DbAccess.insertArt(database,db,articulo);
+                                    etinputCodigo.setText("");
+                                    Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() +" encontrado", Toast.LENGTH_SHORT).show();
+                                }
                             }
 
                         }
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     adaptador.notifyDataSetChanged();
                 }else {
                     tvTitulo.setVisibility(View.VISIBLE);
-                    etinputCodigo.setVisibility(View.GONE);
+                    etinputCodigo.setVisibility(View.INVISIBLE);
                 }
                 //LLamo a la actividad encargada de crear el articulo
 
@@ -117,6 +121,18 @@ public class MainActivity extends AppCompatActivity {
         recView.setAdapter(adaptador);
         recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+
+        if (lista != null)
+            lista.clear();
+
+        lista = null;
+    }
+
     // Mantener el estado de los datos de la actividad cuando giras el movil
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {

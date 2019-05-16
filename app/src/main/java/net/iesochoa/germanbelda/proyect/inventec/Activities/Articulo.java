@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Articulo implements Parcelable {
@@ -77,4 +78,20 @@ public class Articulo implements Parcelable {
             return new Articulo[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Articulo articulo = (Articulo) o;
+        return id.equals(articulo.id) &&
+                codigo.equals(articulo.codigo) &&
+                nombre.equals(articulo.nombre) &&
+                totales.equals(articulo.totales);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, codigo, nombre, totales);
+    }
 }
