@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             if(hasFocus && !etinputCodigo.getText().toString().isEmpty()){ //Para hacer la acción de insertar compruebo que el campo no este vacio y tiene el foco
                                 ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
                                 SQLiteDatabase database = db.getWritableDatabase();
-                                Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"1","","1");
+                                Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"","1","0");
 
                                 if(!DbAccess.findArt(database,db,articulo)) {
                                     lista.add(articulo);
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                     etinputCodigo.setText("");
                                     Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
                                 }else{
+                                    etinputCodigo.setText("");
                                     Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() +" encontrado", Toast.LENGTH_SHORT).show();
                                 }
                             }

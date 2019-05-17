@@ -39,7 +39,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public void onBindViewHolder(@NonNull ArticulosViewHolder articulosViewHolder, int posicion) {
 
         Articulo item = datos.get(posicion);
-        //articulosViewHolder.leido.setText(item.getLeidos().toString()); // Introduzco el valor de cada articulo en el campo leido
+        articulosViewHolder.leido.setText(item.getLeidos()); // Introduzco el valor de cada articulo en el campo leido
         if (!item.getNombre().isEmpty()) {
             articulosViewHolder.codigo.setText(item.getNombre());
         } else {
