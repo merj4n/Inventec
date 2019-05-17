@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.iesochoa.germanbelda.proyect.inventec.Activities.Articulo;
+import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
@@ -39,6 +39,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public void onBindViewHolder(@NonNull ArticulosViewHolder articulosViewHolder, int posicion) {
 
         Articulo item = datos.get(posicion);
+        //articulosViewHolder.leido.setText(item.getLeidos().toString()); // Introduzco el valor de cada articulo en el campo leido
         if (!item.getNombre().isEmpty()) {
             articulosViewHolder.codigo.setText(item.getNombre());
         } else {

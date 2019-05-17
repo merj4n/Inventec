@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.nfc.tech.NfcBarcode;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -17,8 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +23,7 @@ import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
+import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
@@ -41,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public AdaptadorArticulos adaptador;
     private EditText etinputCodigo;
     private TextView tvTitulo;
+    private TextView tvLeido;
 
 
     @Override
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         etinputCodigo = (EditText)findViewById(R.id.etInputCodigo);
         tvTitulo = (TextView)findViewById(R.id.tvTitulo);
+        tvLeido = (TextView)findViewById(R.id.tvLeidos);
         etinputCodigo.setVisibility(View.INVISIBLE);
 
 
@@ -93,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
                     etinputCodigo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View v, boolean hasFocus) {
-                            ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
-                            SQLiteDatabase database = db.getWritableDatabase();
+                            if(hasFocus && !etinputCodigo.getText().toString().isEmpty()){ //Para hacer la acción de insertar compruebo que el campo no este vacio y tiene el foco
+                                ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
+                                SQLiteDatabase database = db.getWritableDatabase();
+                                Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"1","","1");
 
-                            Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"","1");
-                            if(hasFocus){
                                 if(!DbAccess.findArt(database,db,articulo)) {
                                     lista.add(articulo);
                                     DbAccess.insertArt(database,db,articulo);
@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() +" encontrado", Toast.LENGTH_SHORT).show();
                                 }
                             }
-
                         }
                     });
                     adaptador.notifyDataSetChanged();
@@ -122,17 +121,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         adaptador.notifyDataSetChanged();
-    }
-
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-
-        if (lista != null)
-            lista.clear();
-
-        lista = null;
     }
 
     // Mantener el estado de los datos de la actividad cuando giras el movil

@@ -1,4 +1,4 @@
-package net.iesochoa.germanbelda.proyect.inventec.Activities;
+package net.iesochoa.germanbelda.proyect.inventec.Pojo;
 
 import android.content.ContentValues;
 import android.os.Parcel;
@@ -13,12 +13,14 @@ public class Articulo implements Parcelable {
     private String id;
     private String codigo;
     private String nombre;
+    private String leidos; // Nuevo campo de nuestro pojo
     private String totales;
 
-    public Articulo(String codigo, String nombre, String totales) {
+    public Articulo(String codigo, String nombre,String leidos, String totales) {
         this.id = UUID.randomUUID().toString();
         this.codigo = codigo;
         this.nombre = nombre;
+        this.leidos = leidos;  // Nuevo campo de nuestro pojo
         this.totales = totales;
     }
 
@@ -32,6 +34,10 @@ public class Articulo implements Parcelable {
 
     public String getTotales() {
         return totales;
+    }
+
+    public String getLeidos() {
+        return leidos;
     }
 
     public String getCodigo() {

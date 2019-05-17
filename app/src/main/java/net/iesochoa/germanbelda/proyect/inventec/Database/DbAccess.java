@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import net.iesochoa.germanbelda.proyect.inventec.Activities.Articulo;
+import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 
 import java.util.ArrayList;
 
@@ -14,17 +14,17 @@ public class DbAccess {
         try{
             database = db.getWritableDatabase();
 
-            lista.add(new Articulo("GA-B450M DS3H", "Gigabyte B450M DS3H", "12"));
-            lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "12"));
-            lista.add(new Articulo("911-7B24-003", "MSI B360M PRO-VDH", "12"));
-            lista.add(new Articulo("GA-H110M-S2H", "Gigabyte GA-H110M-S2H", "12"));
-            lista.add(new Articulo("911-7B98-001", "MSI Z390-A PRO", "0"));
-            lista.add(new Articulo("X470 AORUS ULTRA GAM", "Gigabyte Aorus X470 Ultra Gaming", "5"));
-            lista.add(new Articulo("GA-Z390 GAMING X", "Gigabyte Z390 Gaming X", "6"));
-            lista.add(new Articulo("90MB0ZZ0-M0EAY0", "Asus Prime Z370-P II", "11"));
-            lista.add(new Articulo("GAB45ARSM-00-G", "Gigabyte B450 AORUS M", "12"));
-            lista.add(new Articulo("911-7B51-007", "MSI Mpg Z390 Gaming Plus", "12"));
-            lista.add(new Articulo("BX80684I58400", "", "-2"));
+            lista.add(new Articulo("GA-B450M DS3H", "Gigabyte B450M DS3H","1", "12"));
+            lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "1","12"));
+            lista.add(new Articulo("911-7B24-003", "MSI B360M PRO-VDH", "1","12"));
+            lista.add(new Articulo("GA-H110M-S2H", "Gigabyte GA-H110M-S2H", "1","12"));
+            lista.add(new Articulo("911-7B98-001", "MSI Z390-A PRO", "1","0"));
+            lista.add(new Articulo("X470 AORUS ULTRA GAM", "Gigabyte Aorus X470 Ultra Gaming","1", "5"));
+            lista.add(new Articulo("GA-Z390 GAMING X", "Gigabyte Z390 Gaming X", "1","6"));
+            lista.add(new Articulo("90MB0ZZ0-M0EAY0", "Asus Prime Z370-P II", "1","11"));
+            lista.add(new Articulo("GAB45ARSM-00-G", "Gigabyte B450 AORUS M", "1","12"));
+            lista.add(new Articulo("911-7B51-007", "MSI Mpg Z390 Gaming Plus", "1","12"));
+            lista.add(new Articulo("BX80684I58400", "", "1","-2"));
             /*lista.add(new Articulo("YD2600BBAFBOX", "Procesador AMD Ryzen 5 2600 3.4 Ghz", "12"));
             lista.add(new Articulo("BX80684I78700", "Intel Core i7-8700 3.2Ghz BOX", "12"));
             lista.add(new Articulo("BX80684I59600K", "Intel Core i5-9600K 3.7Ghz", "12"));
@@ -85,7 +85,8 @@ public class DbAccess {
                     String codigo = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.CODIGO));
                     String nombre = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.NAME));
                     String totals = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.TOTALS));
-                    lista.add(new Articulo(codigo, nombre, totals));
+                    String leidos = "1";
+                    lista.add(new Articulo(codigo, nombre, leidos, totals));
                 }
                 c.close();
             }

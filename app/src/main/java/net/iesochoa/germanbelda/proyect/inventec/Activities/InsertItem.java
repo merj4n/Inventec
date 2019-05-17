@@ -1,7 +1,6 @@
 package net.iesochoa.germanbelda.proyect.inventec.Activities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
+import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 public class InsertItem extends AppCompatActivity {
@@ -48,9 +47,9 @@ public class InsertItem extends AppCompatActivity {
                 else {
                     //Agrego un nuevo articulo a la lista
                     if (etCantidad.getText().toString().equals("")) {
-                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(), "0");
+                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(),"1", "0");
                     } else {
-                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(), etCantidad.getText().toString());
+                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(),"1", etCantidad.getText().toString());
                     }
                     //Recorro la base de datos comprobando si existe el articulo
                     if (DbAccess.findArt(database,db,nuevo)) {
