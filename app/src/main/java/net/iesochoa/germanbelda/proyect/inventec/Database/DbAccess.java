@@ -13,7 +13,6 @@ public class DbAccess {
     public static void fillDb(SQLiteDatabase database, ArticulosDbHelper db, ArrayList<Articulo> lista){
         try{
             database = db.getWritableDatabase();
-            lista = new ArrayList<>();
 
             lista.add(new Articulo("GA-B450M DS3H", "Gigabyte B450M DS3H", "12"));
             lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "12"));
@@ -26,7 +25,7 @@ public class DbAccess {
             lista.add(new Articulo("GAB45ARSM-00-G", "Gigabyte B450 AORUS M", "12"));
             lista.add(new Articulo("911-7B51-007", "MSI Mpg Z390 Gaming Plus", "12"));
             lista.add(new Articulo("BX80684I58400", "", "-2"));
-            lista.add(new Articulo("YD2600BBAFBOX", "Procesador AMD Ryzen 5 2600 3.4 Ghz", "12"));
+            /*lista.add(new Articulo("YD2600BBAFBOX", "Procesador AMD Ryzen 5 2600 3.4 Ghz", "12"));
             lista.add(new Articulo("BX80684I78700", "Intel Core i7-8700 3.2Ghz BOX", "12"));
             lista.add(new Articulo("BX80684I59600K", "Intel Core i5-9600K 3.7Ghz", "12"));
             lista.add(new Articulo("BX80684I38100", "Intel Core i3-8100 3.6GHz BOX", "17"));
@@ -66,7 +65,7 @@ public class DbAccess {
             lista.add(new Articulo("BLS8G4D26BFSBK", "Memoria Ram Crucial Ballistix Sport LT Single Rank DDR4 2666 PC4-21300 8GB CL16", "12"));
             lista.add(new Articulo("BLS4G4D26BFSE", "Memoria Ram Crucial Ballistix Sport LT Red DDR4 2666Mhz PC4-21300 4GB CL16", "12"));
             lista.add(new Articulo("CMW16GX4M2C3000C15", "Corsair Vengeance RGB Pro DDR4 3000 PC4-24000 16GB 2x8GB CL15", "12"));
-
+            */
             // Inserto en la base de lista los articulos de mi arrayList
             for (Articulo ins : lista) {
                 Log.e("Error", ins.getNombre() + database.getPath());

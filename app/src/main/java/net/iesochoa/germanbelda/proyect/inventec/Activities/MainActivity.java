@@ -61,6 +61,23 @@ public class MainActivity extends AppCompatActivity {
             initArrayDb();
         }
 
+        adaptador = new AdaptadorArticulos(lista);
+
+        //Inicialización RecyclerView
+        recView = (RecyclerView) findViewById(R.id.rvArticulos);
+        recView.setHasFixedSize(true);
+        recView.setAdapter(adaptador);
+        recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        //Cuando pulsas sobre cualquiera de los articulos
+        adaptador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = recView.getChildAdapterPosition(v);
+                eliminarArt(position);
+            }
+        });
+
         //Boton flotante para insertar un nuevo articulo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
                             SQLiteDatabase database = db.getWritableDatabase();
 
-                            Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"Juan","1");
+                            Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"","1");
                             if(hasFocus){
                                 if(!DbAccess.findArt(database,db,articulo)) {
                                     lista.add(articulo);
@@ -104,22 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 //startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
-
-        adaptador = new AdaptadorArticulos(lista);
-
-        //Inicialización RecyclerView
-        recView = (RecyclerView) findViewById(R.id.rvArticulos);
-        recView.setHasFixedSize(true);
-        //Cuando pulsas sobre cualquiera de los articulos
-        adaptador.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = recView.getChildAdapterPosition(v);
-                eliminarArt(position);
-            }
-        });
-        recView.setAdapter(adaptador);
-        recView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        adaptador.notifyDataSetChanged();
     }
 
     @Override
@@ -199,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
             c.close();
         } else {
             DbAccess.fillDb(database,db,lista);
+            c.close();
         }
     }
 
