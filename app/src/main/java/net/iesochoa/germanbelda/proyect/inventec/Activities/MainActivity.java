@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,30 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 if (!etinputCodigo.isShown()) {
                     tvTitulo.setVisibility(View.INVISIBLE);
                     etinputCodigo.setVisibility(View.VISIBLE);
-                    etinputCodigo.setInputType(InputType.TYPE_NULL);//Dejo el teclado oculto para este edittext
+                    //etinputCodigo.setInputType(InputType.TYPE_NULL);//Dejo el teclado oculto para este edittext
                     etinputCodigo.requestFocus();
-
-                    etinputCodigo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                        @Override
-                        public void onFocusChange(View v, boolean hasFocus) {
-                            if(hasFocus && !etinputCodigo.getText().toString().isEmpty()){ //Para hacer la acción de insertar compruebo que el campo no este vacio y tiene el foco
-                                ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
-                                SQLiteDatabase database = db.getWritableDatabase();
-                                Articulo articulo = new Articulo(etinputCodigo.getText().toString(),"","1","0");
-
-                                if(!DbAccess.findArt(database,db,articulo)) {
-                                    lista.add(articulo);
-                                    DbAccess.insertArt(database,db,articulo);
-                                    etinputCodigo.setText("");
-                                    Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    etinputCodigo.setText("");
-                                    Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() +" encontrado", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    });
-                    adaptador.notifyDataSetChanged();
                 }else {
                     tvTitulo.setVisibility(View.VISIBLE);
                     etinputCodigo.setVisibility(View.INVISIBLE);
@@ -121,6 +100,37 @@ public class MainActivity extends AppCompatActivity {
                 //startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
+
+        etinputCodigo.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    if(etinputCodigo.getText().length()==13) {
+                        ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
+                        SQLiteDatabase database = db.getWritableDatabase();
+                        Articulo articulo = new Articulo(etinputCodigo.getText().toString(), "", "1", "0");
+                        if (!DbAccess.findArt(database, db, articulo)) {
+                            lista.add(articulo);
+                            DbAccess.insertArt(database, db, articulo);
+                            Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
+                            etinputCodigo.setText("");
+                            adaptador.notifyDataSetChanged();
+                            return true;
+                        } else {
+                            Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() + " encontrado", Toast.LENGTH_SHORT).show();
+                            etinputCodigo.setText("");
+                            return true;
+                        }
+                    }else{
+                        Toast.makeText(MainActivity.this, "Formato no reconocido", Toast.LENGTH_SHORT).show();
+                        etinputCodigo.setText("");
+                       return true;
+                    }
+                }
+                return false;
+            }
+        });
+
         adaptador.notifyDataSetChanged();
     }
 
@@ -152,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         adaptador.notifyDataSetChanged();
     }
 
