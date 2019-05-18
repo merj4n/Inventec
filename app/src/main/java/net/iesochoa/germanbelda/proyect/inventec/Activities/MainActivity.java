@@ -1,5 +1,6 @@
 package net.iesochoa.germanbelda.proyect.inventec.Activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,7 +18,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etinputCodigo;
     private TextView tvTitulo;
     private TextView tvLeido;
+    private ImageButton ibKeyboard;
 
 
     @Override
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         etinputCodigo = (EditText)findViewById(R.id.etInputCodigo);
         tvTitulo = (TextView)findViewById(R.id.tvTitulo);
         tvLeido = (TextView)findViewById(R.id.tvLeidos);
+        ibKeyboard = (ImageButton) findViewById(R.id.ibKeyboard);
         etinputCodigo.setVisibility(View.INVISIBLE);
 
 
@@ -89,16 +94,32 @@ public class MainActivity extends AppCompatActivity {
                 if (!etinputCodigo.isShown()) {
                     tvTitulo.setVisibility(View.INVISIBLE);
                     etinputCodigo.setVisibility(View.VISIBLE);
-                    //etinputCodigo.setInputType(InputType.TYPE_NULL);//Dejo el teclado oculto para este edittext
+                    ibKeyboard.setVisibility(View.VISIBLE);
+                    etinputCodigo.setInputType(InputType.TYPE_NULL);//Dejo el teclado oculto para este edittext
                     etinputCodigo.requestFocus();
                 }else {
                     tvTitulo.setVisibility(View.VISIBLE);
                     etinputCodigo.setVisibility(View.INVISIBLE);
+                    ibKeyboard.setVisibility(View.INVISIBLE);
+                    etinputCodigo.clearFocus();
                 }
                 //LLamo a la actividad encargada de crear el articulo
 
                 //Intent intent = new Intent(MainActivity.this, InsertItem.class);
                 //startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
+            }
+        });
+
+        ibKeyboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(etinputCodigo.getInputType() == InputType.TYPE_NULL) {
+                    etinputCodigo.setInputType(InputType.TYPE_CLASS_TEXT);
+                }else {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etinputCodigo.getWindowToken(), 0);
+                    etinputCodigo.setInputType(InputType.TYPE_NULL);
+                }
             }
         });
 

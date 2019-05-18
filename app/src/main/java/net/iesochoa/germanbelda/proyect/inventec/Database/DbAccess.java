@@ -14,13 +14,13 @@ public class DbAccess {
         try{
             database = db.getWritableDatabase();
 
-            lista.add(new Articulo("GA-B450M DS3H", "Gigabyte B450M DS3H","0", "12"));
-            lista.add(new Articulo("X470 AORUS ULTRA GAM", "Gigabyte Aorus X470 Ultra Gaming","0", "5"));
-            lista.add(new Articulo("GA-Z390 GAMING X", "Gigabyte Z390 Gaming X", "0","6"));
-            lista.add(new Articulo("90MB0ZZ0-M0EAY0", "Asus Prime Z370-P II", "0","11"));
-            lista.add(new Articulo("GAB45ARSM-00-G", "Gigabyte B450 AORUS M", "0","12"));
-            lista.add(new Articulo("911-7B51-007", "MSI Mpg Z390 Gaming Plus", "0","12"));
-            lista.add(new Articulo("BX80684I58400", "", "1","-2"));
+            lista.add(new Articulo("5030917198083", "Call Of Duty Infinity Warfare PC","0", "12"));
+            lista.add(new Articulo("6937826612077", "AMD AM4 Bloque refrigeración","0", "5"));
+            lista.add(new Articulo("5030917057885", "Call Of Duty 4 PC", "0","6"));
+            lista.add(new Articulo("5030917057502", "Call Of Duty World at War PC", "0","11"));
+            lista.add(new Articulo("5030917071126", "Call Of Duty Modern Warfare 2 PC", "0","12"));
+            lista.add(new Articulo("5030917085925", "Call Of Duty Black Ops PC", "0","12"));
+            lista.add(new Articulo("BX80684I58400", "", "0","-2"));
             /*lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "0","12"));
             lista.add(new Articulo("911-7B24-003", "MSI B360M PRO-VDH", "0","12"));
             lista.add(new Articulo("GA-H110M-S2H", "Gigabyte GA-H110M-S2H", "0","12"));
@@ -85,7 +85,7 @@ public class DbAccess {
                     String codigo = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.CODIGO));
                     String nombre = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.NAME));
                     String totals = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.TOTALS));
-                    String leidos = "1";
+                    String leidos = "0";
                     lista.add(new Articulo(codigo, nombre, leidos, totals));
                 }
                 c.close();
