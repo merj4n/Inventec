@@ -4,5 +4,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="GreenUp">#34CA30</color>
-    <color name="RedDown">#F50606</color>
+    <color name="RedDown">#00F50606</color>
 </resources>

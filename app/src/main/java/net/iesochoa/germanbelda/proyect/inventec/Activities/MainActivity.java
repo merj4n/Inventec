@@ -114,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(etinputCodigo.getInputType() == InputType.TYPE_NULL) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(etinputCodigo, 0);
                     etinputCodigo.setInputType(InputType.TYPE_CLASS_TEXT);
                 }else {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         etinputCodigo.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                if ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.getAction() == KeyEvent.ACTION_UP)) { //Solo ejecuta al soltar la tecla enter
                     if (etinputCodigo.getText().length() == 13) {
                         ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
                         SQLiteDatabase database = db.getWritableDatabase();
@@ -136,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                             DbAccess.insertArt(database, db, articulo);
                             Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
                             etinputCodigo.setText("");
+                            etinputCodigo.requestFocus();
                             adaptador.notifyDataSetChanged();
                             return true;
                         } else {
@@ -149,11 +152,13 @@ public class MainActivity extends AppCompatActivity {
                             }
                             adaptador.notifyDataSetChanged();
                             etinputCodigo.setText("");
+                            etinputCodigo.requestFocus();
                             return true;
                         }
                     } else {
-                        //Toast.makeText(MainActivity.this, "Formato no reconocido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Formato no reconocido", Toast.LENGTH_SHORT).show();
                         etinputCodigo.setText("");
+                        etinputCodigo.requestFocus();
                         return true;
                     }
                 }else {
