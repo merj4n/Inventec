@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                         SQLiteDatabase database = db.getWritableDatabase();
                         Articulo articulo = new Articulo(etinputCodigo.getText().toString(), "", "1", "0");
                         if (!DbAccess.findArt(database, db, articulo)) {
-                            lista.add(articulo);
+                            lista.add(0,articulo); //Agrega al principio de la lista para mostrarlo el primero
                             DbAccess.insertArt(database, db, articulo);
                             Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
                             etinputCodigo.setText("");
