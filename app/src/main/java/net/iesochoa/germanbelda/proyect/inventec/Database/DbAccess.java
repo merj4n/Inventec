@@ -10,17 +10,17 @@ import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import java.util.ArrayList;
 
 public class DbAccess {
-    public static void fillDb(SQLiteDatabase database, ArticulosDbHelper db, ArrayList<Articulo> lista){
-        try{
+    public static void fillDb(SQLiteDatabase database, ArticulosDbHelper db, ArrayList<Articulo> lista) {
+        try {
             database = db.getWritableDatabase();
 
-            lista.add(new Articulo("5030917198083", "Call Of Duty Infinity Warfare PC","0", "12"));
-            lista.add(new Articulo("6937826612077", "AMD AM4 Bloque refrigeración","0", "5"));
-            lista.add(new Articulo("5030917057885", "Call Of Duty 4 PC", "0","6"));
-            lista.add(new Articulo("5030917057502", "Call Of Duty World at War PC", "0","11"));
-            lista.add(new Articulo("5030917071126", "Call Of Duty Modern Warfare 2 PC", "0","12"));
-            lista.add(new Articulo("5030917085925", "Call Of Duty Black Ops PC", "0","12"));
-            lista.add(new Articulo("BX80684I58400", "", "0","-2"));
+            lista.add(new Articulo("5030917198083", "Call Of Duty Infinity Warfare PC", "0", "12"));
+            lista.add(new Articulo("6937826612077", "AMD AM4 Bloque refrigeración", "0", "5"));
+            lista.add(new Articulo("5030917057885", "Call Of Duty 4 PC", "0", "6"));
+            lista.add(new Articulo("5030917057502", "Call Of Duty World at War PC", "0", "11"));
+            lista.add(new Articulo("5030917071126", "Call Of Duty Modern Warfare 2 PC", "0", "12"));
+            lista.add(new Articulo("5030917085925", "Call Of Duty Black Ops PC", "0", "12"));
+            lista.add(new Articulo("BX80684I58400", "", "0", "-2"));
             /*lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "0","12"));
             lista.add(new Articulo("911-7B24-003", "MSI B360M PRO-VDH", "0","12"));
             lista.add(new Articulo("GA-H110M-S2H", "Gigabyte GA-H110M-S2H", "0","12"));
@@ -71,12 +71,13 @@ public class DbAccess {
                 Log.e("Error", ins.getNombre() + database.getPath());
                 database.insert("Articulo", null, ins.toContentValues());
             }
-        }catch(Exception e){
-            Log.e("Error","No se ha podido crear la base de datos." + e.getMessage());
+        } catch (Exception e) {
+            Log.e("Error", "No se ha podido crear la base de datos." + e.getMessage());
         }
     }
-    public static void readDb(SQLiteDatabase database, ArticulosDbHelper db, ArrayList<Articulo> lista){
-        try{
+
+    public static void readDb(SQLiteDatabase database, ArticulosDbHelper db, ArrayList<Articulo> lista) {
+        try {
             database = db.getWritableDatabase();
             Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME, null, null, null, null, null, null);
 
@@ -90,12 +91,13 @@ public class DbAccess {
                 }
                 c.close();
             }
-        }catch(Exception e){
-            Log.e("Error","Error de lectura en la base de datos." + e.getMessage());
+        } catch (Exception e) {
+            Log.e("Error", "Error de lectura en la base de datos." + e.getMessage());
         }
     }
+
     public static void removeArt(SQLiteDatabase database, ArticulosDbHelper db, ArrayList<Articulo> lista, int position) {
-        try{
+        try {
             database = db.getWritableDatabase();
             Articulo articulo = lista.get(position);
             lista.remove(articulo);
@@ -103,14 +105,14 @@ public class DbAccess {
                     articulo.getCodigo()
             };
             database.delete(ArticulosContract.ArticulosEntry.TABLE_NAME, "CODIGO=?", args);
-        }
-        catch(Exception e){
-            Log.e("Error","No se ha podido borrar el articulo." + e.getMessage());
+        } catch (Exception e) {
+            Log.e("Error", "No se ha podido borrar el articulo." + e.getMessage());
         }
     }
-    public static boolean findArt(SQLiteDatabase database, ArticulosDbHelper db, Articulo articulo){
-        String codigo="";
-        try{
+
+    public static boolean findArt(SQLiteDatabase database, ArticulosDbHelper db, Articulo articulo) {
+        String codigo = "";
+        try {
             database = db.getReadableDatabase();
             String sql = "SELECT * FROM ARTICULO WHERE CODIGO=?";
             String[] args = {
@@ -122,19 +124,21 @@ public class DbAccess {
                 return true;
             }
             c.close();
-        }catch(Exception e){
-            Log.e("Error","Articulo no encontrado." + e.getMessage());
+        } catch (Exception e) {
+            Log.e("Error", "Articulo no encontrado." + e.getMessage());
         }
         return false;
     }
-    public static void insertArt(SQLiteDatabase database, ArticulosDbHelper db, Articulo articulo){
-        try{
+
+    public static void insertArt(SQLiteDatabase database, ArticulosDbHelper db, Articulo articulo) {
+        try {
             database = db.getWritableDatabase();
             database.insert(ArticulosContract.ArticulosEntry.TABLE_NAME, null, articulo.toContentValues());
-        }catch(Exception e){
-            Log.e("Error","No se ha insertado el articulo." + e.getMessage());
+        } catch (Exception e) {
+            Log.e("Error", "No se ha insertado el articulo." + e.getMessage());
         }
     }
+
     public boolean checkDataBase(String database_path) {
         SQLiteDatabase checkDB = null;
         try {

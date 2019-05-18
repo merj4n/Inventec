@@ -47,19 +47,19 @@ public class InsertItem extends AppCompatActivity {
                 else {
                     //Agrego un nuevo articulo a la lista
                     if (etCantidad.getText().toString().equals("")) {
-                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(),"1", "0");
+                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(), "1", "0");
                     } else {
-                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(),"1", etCantidad.getText().toString());
+                        nuevo = new Articulo(etCodigo.getText().toString(), etNombre.getText().toString(), "1", etCantidad.getText().toString());
                     }
                     //Recorro la base de datos comprobando si existe el articulo
-                    if (DbAccess.findArt(database,db,nuevo)) {
-                        Toast.makeText(InsertItem.this, "El articulo "+nuevo.getCodigo()+" ya existe", Toast.LENGTH_LONG).show();
+                    if (DbAccess.findArt(database, db, nuevo)) {
+                        Toast.makeText(InsertItem.this, "El articulo " + nuevo.getCodigo() + " ya existe", Toast.LENGTH_LONG).show();
                         setResult(RESULT_CANCELED);
                         finish();
 
-                    }else {
+                    } else {
                         //Agrego el articulo a la ArrayList y comunico el resultado
-                        DbAccess.insertArt(database,db,nuevo);
+                        DbAccess.insertArt(database, db, nuevo);
                         Intent intent = new Intent();
                         intent.putExtra(EXTRA_ITEM_NUEVO, nuevo);
                         setResult(RESULT_OK, intent);

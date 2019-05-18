@@ -53,17 +53,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        etinputCodigo = (EditText)findViewById(R.id.etInputCodigo);
-        tvTitulo = (TextView)findViewById(R.id.tvTitulo);
-        tvLeido = (TextView)findViewById(R.id.tvLeidos);
+        etinputCodigo = (EditText) findViewById(R.id.etInputCodigo);
+        tvTitulo = (TextView) findViewById(R.id.tvTitulo);
+        tvLeido = (TextView) findViewById(R.id.tvLeidos);
         ibKeyboard = (ImageButton) findViewById(R.id.ibKeyboard);
         etinputCodigo.setVisibility(View.INVISIBLE);
 
 
         //Compruebo el estado de la actividad primero
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             lista = savedInstanceState.getParcelableArrayList(ARRAYLIST_DATA);
-        }else{
+        } else {
             //inicialización de la lista de ejemplo
             initArrayDb();
         }
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     ibKeyboard.setVisibility(View.VISIBLE);
                     etinputCodigo.setInputType(InputType.TYPE_NULL);//Dejo el teclado oculto para este edittext
                     etinputCodigo.requestFocus();
-                }else {
+                } else {
                     tvTitulo.setVisibility(View.VISIBLE);
                     etinputCodigo.setVisibility(View.INVISIBLE);
                     ibKeyboard.setVisibility(View.INVISIBLE);
@@ -113,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
         ibKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(etinputCodigo.getInputType() == InputType.TYPE_NULL) {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (etinputCodigo.getInputType() == InputType.TYPE_NULL) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(etinputCodigo, 0);
                     etinputCodigo.setInputType(InputType.TYPE_CLASS_TEXT);
-                }else {
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                } else {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(etinputCodigo.getWindowToken(), 0);
                     etinputCodigo.setInputType(InputType.TYPE_NULL);
                 }
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                         SQLiteDatabase database = db.getWritableDatabase();
                         Articulo articulo = new Articulo(etinputCodigo.getText().toString(), "", "1", "0");
                         if (!DbAccess.findArt(database, db, articulo)) {
-                            lista.add(0,articulo); //Agrega al principio de la lista para mostrarlo el primero
+                            lista.add(0, articulo); //Agrega al principio de la lista para mostrarlo el primero
                             DbAccess.insertArt(database, db, articulo);
                             Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
                             etinputCodigo.setText("");
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (art.getCodigo().equals(articulo.getCodigo())) {
                                     int suma = Integer.parseInt(articulo.getLeidos()) + Integer.parseInt(art.getLeidos());
                                     art.setLeidos(String.valueOf(suma));
-                                    Log.e("LEIDO","Suma total ---> "+ suma);
+                                    Log.e("LEIDO", "Suma total ---> " + suma);
                                 }
                             }
                             adaptador.notifyDataSetChanged();
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                         etinputCodigo.requestFocus();
                         return true;
                     }
-                }else {
+                } else {
                     return false;
                 }
             }
@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         savedInstanceState.putParcelableArrayList(ARRAYLIST_DATA, lista);
 
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -232,10 +233,10 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME, null, null, null, null, null, null);
 
         if (!(c.getCount() == 0)) {
-            DbAccess.readDb(database,db,lista);
+            DbAccess.readDb(database, db, lista);
             c.close();
         } else {
-            DbAccess.fillDb(database,db,lista);
+            DbAccess.fillDb(database, db, lista);
             c.close();
         }
     }
@@ -250,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                DbAccess.removeArt(database,db,lista,position);
+                                DbAccess.removeArt(database, db, lista, position);
                                 adaptador.notifyDataSetChanged();
                                 dialog.dismiss();
                             }
