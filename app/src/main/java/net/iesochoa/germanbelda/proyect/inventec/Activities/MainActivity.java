@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    if(etinputCodigo.getText().length()==13) {
+                    if (etinputCodigo.getText().length() == 13) {
                         ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
                         SQLiteDatabase database = db.getWritableDatabase();
                         Articulo articulo = new Articulo(etinputCodigo.getText().toString(), "", "1", "0");
@@ -118,19 +119,27 @@ public class MainActivity extends AppCompatActivity {
                             return true;
                         } else {
                             Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() + " encontrado", Toast.LENGTH_SHORT).show();
+                            for (Articulo art : lista) {
+                                if (art.getCodigo().equals(articulo.getCodigo())) {
+                                    int suma = Integer.parseInt(articulo.getLeidos()) + Integer.parseInt(art.getLeidos());
+                                    art.setLeidos(String.valueOf(suma));
+                                    Log.e("LEIDO","Suma total ---> "+ suma);
+                                }
+                            }
+                            adaptador.notifyDataSetChanged();
                             etinputCodigo.setText("");
                             return true;
                         }
-                    }else{
-                        Toast.makeText(MainActivity.this, "Formato no reconocido", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //Toast.makeText(MainActivity.this, "Formato no reconocido", Toast.LENGTH_SHORT).show();
                         etinputCodigo.setText("");
-                       return true;
+                        return true;
                     }
+                }else {
+                    return false;
                 }
-                return false;
             }
         });
-
         adaptador.notifyDataSetChanged();
     }
 

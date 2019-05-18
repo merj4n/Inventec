@@ -35,6 +35,24 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         return articulovh;
     }
 
+    public class ArticulosViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView leido;
+        private TextView codigo;
+        private TextView totales;
+        private ImageView advertencia;
+        int colorLeido, colorTotales;
+
+        public ArticulosViewHolder(View itemView) {
+            super(itemView);
+
+            leido = (TextView) itemView.findViewById(R.id.tvLeidos);
+            codigo = (TextView) itemView.findViewById(R.id.tvCodigo);
+            totales = (TextView) itemView.findViewById(R.id.tvTotales);
+            advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
+        }
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ArticulosViewHolder articulosViewHolder, int posicion) {
 
@@ -53,12 +71,12 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             articulosViewHolder.advertencia.setVisibility(View.VISIBLE);
         }
         //Establezco el color del texto para los articulos leidos
-        articulosViewHolder.colorA = Integer.parseInt(articulosViewHolder.leido.getText().toString());
-        articulosViewHolder.colorB = Integer.parseInt(articulosViewHolder.totales.getText().toString());
-        if (articulosViewHolder.colorA > articulosViewHolder.colorB) {
-            articulosViewHolder.leido.setTextColor(Color.parseColor("#34CA30"));
-        } else if (articulosViewHolder.colorA < articulosViewHolder.colorB) {
-            articulosViewHolder.leido.setTextColor(Color.parseColor("#F50606"));
+        articulosViewHolder.colorLeido = Integer.parseInt(articulosViewHolder.leido.getText().toString());
+        articulosViewHolder.colorTotales = Integer.parseInt(articulosViewHolder.totales.getText().toString());
+        if (articulosViewHolder.colorLeido > articulosViewHolder.colorTotales) {
+            articulosViewHolder.leido.setTextColor(Color.GREEN);
+        } else if (articulosViewHolder.colorLeido < articulosViewHolder.colorTotales) {
+            articulosViewHolder.leido.setTextColor(Color.RED);
         } else {
             articulosViewHolder.leido.setTextColor(Color.GRAY);
         }
@@ -79,23 +97,5 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public void onClick(View v) {
         if (listener != null)
             listener.onClick(v);
-    }
-
-    public class ArticulosViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView leido;
-        private TextView codigo;
-        private TextView totales;
-        private ImageView advertencia;
-        int colorA, colorB;
-
-        public ArticulosViewHolder(View itemView) {
-            super(itemView);
-
-            leido = (TextView) itemView.findViewById(R.id.tvLeidos);
-            codigo = (TextView) itemView.findViewById(R.id.tvCodigo);
-            totales = (TextView) itemView.findViewById(R.id.tvTotales);
-            advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
-        }
     }
 }
