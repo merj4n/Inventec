@@ -139,6 +139,32 @@ public class DbAccess {
         }
     }
 
+    public static ArrayList<Articulo> sortBy(ArrayList<Articulo> lista, String by){
+
+        ArrayList<Articulo> original = new ArrayList<>();
+
+        switch (by) {
+            case ">":
+                for (Articulo ar:lista) {
+                    if(Integer.parseInt(ar.getLeidos())>Integer.parseInt(ar.getTotales())){
+                        original.add(ar);
+                    }
+                }
+                return original;
+            case "<":
+                for (Articulo ar:lista) {
+                    if(Integer.parseInt(ar.getLeidos())<Integer.parseInt(ar.getTotales())){
+                        original.add(ar);
+                    }
+                }
+                return original;
+            case "all":
+                return lista;
+            default:
+                return lista;
+        }
+    }
+
     public boolean checkDataBase(String database_path) {
         SQLiteDatabase checkDB = null;
         try {
