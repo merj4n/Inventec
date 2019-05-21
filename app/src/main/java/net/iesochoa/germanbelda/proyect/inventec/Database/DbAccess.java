@@ -148,6 +148,7 @@ public class DbAccess {
                 for (Articulo ar:lista) {
                     if(Integer.parseInt(ar.getLeidos())>Integer.parseInt(ar.getTotales())){
                         original.add(ar);
+                        Log.e("LISTA",ar.getNombre());
                     }
                 }
                 return original;
@@ -155,6 +156,7 @@ public class DbAccess {
                 for (Articulo ar:lista) {
                     if(Integer.parseInt(ar.getLeidos())<Integer.parseInt(ar.getTotales())){
                         original.add(ar);
+                        Log.e("LISTA",ar.getNombre());
                     }
                 }
                 return original;
