@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
     private RecyclerView recView;
     public ArrayList<Articulo> lista;
-    public AdaptadorArticulos adaptador;
+    public AdaptadorArticulos adaptador,mayor,menor;
     private EditText etinputCodigo;
     private TextView tvTitulo;
     private TextView tvLeido;
@@ -215,10 +215,21 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.itAjustes) {
-            Toast.makeText(this, "Boton Ajustes pulsado!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Boton Ajustes pulsado!", Toast.LENGTH_SHORT).show();
+            mayor = new AdaptadorArticulos(DbAccess.sortBy(lista,">"));
+            recView.setAdapter(mayor);
+            mayor.notifyDataSetChanged();
         }
         if (id == R.id.itAcercade) {
-            Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
+            menor = new AdaptadorArticulos(DbAccess.sortBy(lista,"<"));
+            recView.setAdapter(menor);
+            menor.notifyDataSetChanged();
+        }
+        if (id == R.id.itAll) {
+            //Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
+            recView.setAdapter(adaptador);
+            adaptador.notifyDataSetChanged();
         }
 
         return super.onOptionsItemSelected(item);
