@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     @Override
     public void onBindViewHolder(@NonNull ArticulosViewHolder articulosViewHolder, int posicion) {
         Articulo item = filtro.get(posicion);
-        //Articulo item = datos.get(posicion);
+
         articulosViewHolder.leido.setText(item.getLeidos()); // Introduzco el valor de cada articulo en el campo leido
         if (!item.getNombre().isEmpty()) {
             articulosViewHolder.codigo.setText(item.getNombre());
@@ -92,10 +93,6 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     public void filter(final String text) {
 
-        // Hago el filtrado en nuevo hilo para agilizar la tarea
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
                 // Limpio la lista filtrada
                 filtro.clear();
                 // Si no hay valor en el string la lista original la copio en la filtrada
@@ -104,43 +101,44 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
                 } else {
                     // Busco en la lista original y lo añado a la de filtros
                     for (Articulo item : datos) {
+                        int leidos = Integer.parseInt(item.getLeidos());
+                        int totales = Integer.parseInt(item.getTotales());
+
                         switch (text) {
                             case "<":
-                                if (Integer.parseInt(item.getLeidos())<Integer.parseInt(item.getTotales())) {
+                                if (leidos < totales) {
+                                    Log.e("NO",leidos+" ----- "+totales + " simbolo " +text);
                                     // Añado articulo
                                     filtro.add(item);
                                 }
+                                break;
                             case ">":
-                                if (Integer.parseInt(item.getLeidos())>Integer.parseInt(item.getTotales())) {
+                                if (leidos > totales) {
+                                    Log.e("SALIDA",leidos+" ----- "+totales + " simbolo " +text);
                                     // Añado articulo
                                     filtro.add(item);
+                                    Log.e("INDICE",""+filtro.indexOf(item));
                                 }
+                                break;
                             case "<>":
-                                if (Integer.parseInt(item.getLeidos())>Integer.parseInt(item.getTotales()) ||
-                                        Integer.parseInt(item.getLeidos())<Integer.parseInt(item.getTotales())) {
+                                if ((leidos > totales) || (leidos < totales)) {
+                                    Log.e("NO",leidos+" ----- "+totales + " simbolo " +text);
                                     // Añado articulo
                                     filtro.add(item);
                                 }
+                                break;
                             default:
                                 break;
                         }
                     }
                 }
-                // Lo establezco en el thread de la interfaz de usuario
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
-            }
-        }).start();
+                notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
 
-        return datos.size();
+        return filtro.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener) {

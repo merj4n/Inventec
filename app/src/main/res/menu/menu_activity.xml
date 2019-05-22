@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/itAll"
-        android:title="Todo" />
+        android:id="@+id/itSubirDatos"
+        android:title="Subir datos" />
     <item android:id="@+id/itAjustes"
         android:title="Ajustes"/>
     <item android:id="@+id/itAcercade"
