@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             initArrayDb();
         }
 
-        adaptador = new AdaptadorArticulos(lista);
+        adaptador = new AdaptadorArticulos(this,lista);
 
         //Inicialización RecyclerView
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
@@ -216,20 +216,23 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.itAjustes) {
             //Toast.makeText(this, "Boton Ajustes pulsado!", Toast.LENGTH_SHORT).show();
-            mayor = new AdaptadorArticulos(DbAccess.sortBy(lista,">"));
+            /*mayor = new AdaptadorArticulos(DbAccess.sortBy(lista,">"));
             recView.setAdapter(mayor);
-            mayor.notifyDataSetChanged();
+            mayor.notifyDataSetChanged();*/
+            adaptador.filter(">");
         }
         if (id == R.id.itAcercade) {
             //Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
-            menor = new AdaptadorArticulos(DbAccess.sortBy(lista,"<"));
+            /*menor = new AdaptadorArticulos(DbAccess.sortBy(lista,"<"));
             recView.setAdapter(menor);
-            menor.notifyDataSetChanged();
+            menor.notifyDataSetChanged();*/
+            adaptador.filter("<");
         }
         if (id == R.id.itAll) {
             //Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
-            recView.setAdapter(adaptador);
-            adaptador.notifyDataSetChanged();
+            /*recView.setAdapter(adaptador);
+            adaptador.notifyDataSetChanged();*/
+            adaptador.filter("<>");
         }
 
         return super.onOptionsItemSelected(item);
