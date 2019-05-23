@@ -2,10 +2,8 @@ package net.iesochoa.germanbelda.proyect.inventec.Activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,11 +31,9 @@ import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
 
-import static net.iesochoa.germanbelda.proyect.inventec.Activities.EditItem.EXTRA_ITEM_NUEVO;
 
 public class MainActivity extends AppCompatActivity{
 
-    private static final int REQUEST_INSERTAR_ITEM = 2222;
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
     private RecyclerView recView;
     public ArrayList<Articulo> lista;
@@ -85,7 +81,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-
         //Boton flotante para insertar un nuevo articulo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -104,10 +99,6 @@ public class MainActivity extends AppCompatActivity{
                     ibKeyboard.setVisibility(View.INVISIBLE);
                     etinputCodigo.clearFocus();
                 }
-                //LLamo a la actividad encargada de crear el articulo
-
-                //Intent intent = new Intent(MainActivity.this, EditItem.class);
-                //startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
 
@@ -140,7 +131,7 @@ public class MainActivity extends AppCompatActivity{
                             Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
                             etinputCodigo.setText("");
                             etinputCodigo.requestFocus();
-                            adaptador.notifyDataSetChanged();
+                            adaptador.updateUI();
                             return true;
                         } else {
                             Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() + " encontrado", Toast.LENGTH_SHORT).show();
@@ -151,7 +142,7 @@ public class MainActivity extends AppCompatActivity{
                                     Log.e("LEIDO", "Suma total ---> " + suma);
                                 }
                             }
-                            adaptador.notifyDataSetChanged();
+                            adaptador.updateUI();
                             etinputCodigo.setText("");
                             etinputCodigo.requestFocus();
                             return true;
@@ -167,7 +158,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-        adaptador.notifyDataSetChanged();
+        adaptador.updateUI();
     }
 
     // Mantener el estado de los datos de la actividad cuando giras el movil
@@ -179,28 +170,12 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case REQUEST_INSERTAR_ITEM:
-                if (resultCode == RESULT_OK) {
-                    Articulo articulo = data.getParcelableExtra(EXTRA_ITEM_NUEVO);
-                    lista.add(articulo);
-                    adaptador.notifyDataSetChanged();
-                }
-                break;
-            default:
-        }
-    }
-
     //Refresco los cambios del adaptador cuando vuelvo a la actividad principal, por si inserto un elemento nuevo o elimino uno
     @Override
     protected void onResume() {
         super.onResume();
 
-        adaptador.notifyDataSetChanged();
+        adaptador.updateUI();
     }
 
     //Creación del menu de opciones
@@ -285,8 +260,9 @@ public class MainActivity extends AppCompatActivity{
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                DbAccess.removeArt(database, db, lista, position);
-                                adaptador.notifyDataSetChanged();
+                                DbAccess.removeArt(database, db,lista, position);
+                                adaptador.removeItem(position);
+                                adaptador.updateUI();
                                 dialog.dismiss();
                             }
                         })

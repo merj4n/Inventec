@@ -2,7 +2,6 @@ package net.iesochoa.germanbelda.proyect.inventec.Adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,13 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.iesochoa.germanbelda.proyect.inventec.Activities.EditItem;
 import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
-
-import static android.support.v4.content.ContextCompat.startActivity;
 
 public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.ArticulosViewHolder> implements View.OnClickListener {
     private ArrayList<Articulo> datos, filtro;
@@ -30,7 +26,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     public AdaptadorArticulos(Context context,ArrayList<Articulo> datos) {
         this.datos = datos;
-        this.filtro = new ArrayList<Articulo>();
+        this.filtro = new ArrayList<>();
         this.filtro.addAll(this.datos);
         this.context = context;
     }
@@ -39,7 +35,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     @Override
     public AdaptadorArticulos.ArticulosViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_edicion_articulo, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_vista_articulo, viewGroup, false);
         itemView.setOnClickListener(this);
         ArticulosViewHolder articulovh = new ArticulosViewHolder(itemView);
 
@@ -62,18 +58,6 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             totales = (TextView) itemView.findViewById(R.id.tvTotales);
             advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-
-
-                @Override
-                public boolean onLongClick(View v) {
-
-                    Intent intent = new Intent(context, EditItem.class);
-                    startActivity(context,intent,null);
-
-                    return true;
-                }
-            });
         }
     }
 
@@ -161,6 +145,19 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public void setOnClickListener(View.OnClickListener listener) {
 
         this.listener = listener;
+    }
+
+    public void removeItem(int posicion){
+
+        datos.remove(posicion);
+        notifyDataSetChanged();
+
+    }
+
+   public void updateUI(){
+        filtro.clear();
+        filtro.addAll(datos);
+        notifyDataSetChanged();
     }
 
     @Override

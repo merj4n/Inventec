@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
-public class EdicionArticulo extends AppCompatActivity {
+public class VistaArticulo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edicion_articulo);
+        setContentView(R.layout.activity_vista_articulo);
     }
 }
