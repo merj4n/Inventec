@@ -14,9 +14,9 @@ import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
 import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
-public class InsertItem extends AppCompatActivity {
+public class EditItem extends AppCompatActivity {
 
-    public static final String EXTRA_ITEM_NUEVO = "net.iesochoa.germanbelda.proyect.inventec.Activities.InsertItem";
+    public static final String EXTRA_ITEM_NUEVO = "net.iesochoa.germanbelda.proyect.inventec.Activities.EditItem";
     EditText etCodigo;
     EditText etNombre;
     EditText etCantidad;
@@ -26,7 +26,7 @@ public class InsertItem extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert_item);
+        setContentView(R.layout.activity_edit_item);
 
         etCodigo = (EditText) findViewById(R.id.etCodigo);
         etNombre = (EditText) findViewById(R.id.etNombre);
@@ -38,12 +38,14 @@ public class InsertItem extends AppCompatActivity {
         btAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArticulosDbHelper db = new ArticulosDbHelper(InsertItem.this);
+                ArticulosDbHelper db = new ArticulosDbHelper(EditItem.this);
                 SQLiteDatabase database = db.getWritableDatabase();
                 Articulo nuevo;
                 String codigo;
+
+              /*
                 if (etCodigo.getText().toString().equals(""))
-                    Toast.makeText(InsertItem.this, "Necesitas introducir el codigo al menos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditItem.this, "Necesitas introducir el codigo al menos", Toast.LENGTH_LONG).show();
                 else {
                     //Agrego un nuevo articulo a la lista
                     if (etCantidad.getText().toString().equals("")) {
@@ -53,7 +55,7 @@ public class InsertItem extends AppCompatActivity {
                     }
                     //Recorro la base de datos comprobando si existe el articulo
                     if (DbAccess.findArt(database, db, nuevo)) {
-                        Toast.makeText(InsertItem.this, "El articulo " + nuevo.getCodigo() + " ya existe", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditItem.this, "El articulo " + nuevo.getCodigo() + " ya existe", Toast.LENGTH_LONG).show();
                         setResult(RESULT_CANCELED);
                         finish();
 
@@ -65,7 +67,7 @@ public class InsertItem extends AppCompatActivity {
                         setResult(RESULT_OK, intent);
                         finish();
                     }
-                }
+                }*/
             }
         });
 

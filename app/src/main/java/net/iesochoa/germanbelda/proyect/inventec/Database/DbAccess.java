@@ -14,17 +14,17 @@ public class DbAccess {
         try {
             database = db.getWritableDatabase();
 
-            lista.add(new Articulo("5030917198083", "Call Of Duty Infinity Warfare PC", "0", "12"));
+            lista.add(new Articulo("5030917198083", "Call Of Duty Infinity Warfare PC", "0", "3"));
             lista.add(new Articulo("6937826612077", "AMD AM4 Bloque refrigeración", "0", "5"));
-            lista.add(new Articulo("5030917057885", "Call Of Duty 4 PC", "0", "6"));
+            lista.add(new Articulo("5030917057885", "Call Of Duty 4 PC", "6", "6"));
             lista.add(new Articulo("5030917057502", "Call Of Duty World at War PC", "0", "11"));
-            lista.add(new Articulo("5030917071126", "Call Of Duty Modern Warfare 2 PC", "0", "12"));
-            lista.add(new Articulo("5030917085925", "Call Of Duty Black Ops PC", "0", "12"));
+            lista.add(new Articulo("5030917071126", "Call Of Duty Modern Warfare 2 PC", "0", "1"));
+            lista.add(new Articulo("5030917085925", "Call Of Duty Black Ops PC", "4", "4"));
             lista.add(new Articulo("BX80684I58400", "", "0", "-2"));
-            /*lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "0","12"));
-            lista.add(new Articulo("911-7B24-003", "MSI B360M PRO-VDH", "0","12"));
-            lista.add(new Articulo("GA-H110M-S2H", "Gigabyte GA-H110M-S2H", "0","12"));
-            lista.add(new Articulo("911-7B98-001", "MSI Z390-A PRO", "0","0"));
+            lista.add(new Articulo("911-7B48-001", "MSI Z370-A Pro", "0","12"));
+            lista.add(new Articulo("911-7B24-003", "MSI B360M PRO-VDH", "7","7"));
+            lista.add(new Articulo("GA-H110M-S2H", "Gigabyte GA-H110M-S2H", "0","2"));
+            /*lista.add(new Articulo("911-7B98-001", "MSI Z390-A PRO", "0","0"));
             lista.add(new Articulo("YD2600BBAFBOX", "Procesador AMD Ryzen 5 2600 3.4 Ghz", "12"));
             lista.add(new Articulo("BX80684I78700", "Intel Core i7-8700 3.2Ghz BOX", "12"));
             lista.add(new Articulo("BX80684I59600K", "Intel Core i5-9600K 3.7Ghz", "12"));

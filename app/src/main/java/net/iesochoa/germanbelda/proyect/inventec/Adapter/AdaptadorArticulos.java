@@ -1,8 +1,8 @@
 package net.iesochoa.germanbelda.proyect.inventec.Adapter;
 
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity;
+import net.iesochoa.germanbelda.proyect.inventec.Activities.EditItem;
 import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.ArticulosViewHolder> implements View.OnClickListener {
     private ArrayList<Articulo> datos, filtro;
@@ -59,11 +61,26 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             codigo = (TextView) itemView.findViewById(R.id.tvCodigo);
             totales = (TextView) itemView.findViewById(R.id.tvTotales);
             advertencia = (ImageView) itemView.findViewById(R.id.ivAdvertencia);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+
+
+                @Override
+                public boolean onLongClick(View v) {
+
+                    Intent intent = new Intent(context, EditItem.class);
+                    startActivity(context,intent,null);
+
+                    return true;
+                }
+            });
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticulosViewHolder articulosViewHolder, int posicion) {
+
+
         Articulo item = filtro.get(posicion);
 
         articulosViewHolder.leido.setText(item.getLeidos()); // Introduzco el valor de cada articulo en el campo leido

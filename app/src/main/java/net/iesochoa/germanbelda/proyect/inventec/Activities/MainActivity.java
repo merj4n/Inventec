@@ -33,9 +33,9 @@ import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
 
-import static net.iesochoa.germanbelda.proyect.inventec.Activities.InsertItem.EXTRA_ITEM_NUEVO;
+import static net.iesochoa.germanbelda.proyect.inventec.Activities.EditItem.EXTRA_ITEM_NUEVO;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private static final int REQUEST_INSERTAR_ITEM = 2222;
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         //Boton flotante para insertar un nuevo articulo
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAdd);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //LLamo a la actividad encargada de crear el articulo
 
-                //Intent intent = new Intent(MainActivity.this, InsertItem.class);
+                //Intent intent = new Intent(MainActivity.this, EditItem.class);
                 //startActivityForResult(intent, REQUEST_INSERTAR_ITEM);
             }
         });
@@ -298,4 +299,6 @@ public class MainActivity extends AppCompatActivity {
                         });
         builder.show();
     }
+
+
 }
