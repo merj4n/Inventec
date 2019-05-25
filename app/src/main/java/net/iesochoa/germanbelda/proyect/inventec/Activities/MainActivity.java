@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -227,10 +228,19 @@ public class MainActivity extends AppCompatActivity{
         }
 
         if (id == R.id.itAcercade) {
-            //Toast.makeText(this, "Boton Acercade pulsado!", Toast.LENGTH_SHORT).show();
-            /*menor = new AdaptadorArticulos(DbAccess.sortBy(lista,"<"));
-            recView.setAdapter(menor);
-            menor.notifyDataSetChanged();*/
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
+            LayoutInflater inflater = getLayoutInflater();
+
+            builder.setView(inflater.inflate(R.layout.acercade, null))
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog dialogIcon = builder.create();
+            dialogIcon.show();
         }
 
         if (id == R.id.itSubirDatos){
