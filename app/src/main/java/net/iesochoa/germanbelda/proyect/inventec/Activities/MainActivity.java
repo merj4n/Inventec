@@ -49,7 +49,12 @@ public class MainActivity extends AppCompatActivity{
     private TextView tvLeido;
     private ImageButton ibKeyboard;
 
-
+    /**
+     * Metodo principal en el que trato los articulos con su recyclerView y su adaptador,
+     * y los eventos del boton de añadir articulos asi como la entrada de datos mediante
+     * teclado o bluetooth.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity{
         etinputCodigo.setVisibility(View.INVISIBLE);
 
 
-        //Compruebo el estado de la actividad primero
+        //Compruebo si tengo datos almacenados de movimientos anteriores
         if (savedInstanceState != null) {
             lista = savedInstanceState.getParcelableArrayList(ARRAYLIST_DATA);
         } else {
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-
+        //Control de la visualizacion y funcionalidad del teclado.
         ibKeyboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-
+        //Comprobación de la entrada de datos de formato y forma correcta.
         etinputCodigo.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -167,7 +172,11 @@ public class MainActivity extends AppCompatActivity{
         adaptador.updateUI();
     }
 
-    // Mantener el estado de los datos de la actividad cuando giras el movil
+    /**
+     * Metodo que guarda una instancia de los datos presentes antes de cerrar la actividad principal
+     * para poder restaurarlos posteriormente si es necesario.
+     * @param savedInstanceState
+     */
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -176,7 +185,9 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    //Refresco los cambios del adaptador cuando vuelvo a la actividad principal, por si inserto un elemento nuevo o elimino uno
+    /**
+     * Metodo que refresca el estado del adaptador cuando se vuelve a la pantalla principal.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -184,7 +195,11 @@ public class MainActivity extends AppCompatActivity{
         adaptador.updateUI();
     }
 
-    //Creación del menu de opciones
+    /**
+     * Metodo para la creación del menu de opciones de la barra principal.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity, menu);
@@ -192,6 +207,11 @@ public class MainActivity extends AppCompatActivity{
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * Metodo que da funcionalidad a cada una de las opciones de menu.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -245,13 +265,16 @@ public class MainActivity extends AppCompatActivity{
         }
 
         if (id == R.id.itSubirDatos){
-            //File localfile = new File(RUTA_FILE_DB);
             SftpConnection conexion = new SftpConnection();
             conexion.execute();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Metodo de inicialización de la base de datos de prueba, llamo a los metodos de lectura o
+     * rellenado de según sea necesario.
+     */
     public void initArrayDb() {
         ArticulosDbHelper db = new ArticulosDbHelper(this);
         SQLiteDatabase database = db.getWritableDatabase();
@@ -269,6 +292,11 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Metodo que elimina un articulo seleccionado en el recyclerView en base a su posición,
+     * es elminado de la DB y de la lista.
+     * @param position
+     */
     public void eliminarArt(final int position) {
         final ArticulosDbHelper db = new ArticulosDbHelper(this);
         final SQLiteDatabase database = db.getWritableDatabase();
@@ -294,6 +322,4 @@ public class MainActivity extends AppCompatActivity{
                         });
         builder.show();
     }
-
-
 }

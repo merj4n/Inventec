@@ -61,6 +61,12 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         }
     }
 
+    /**
+     * Metodo que trata la vista que recibe con el articulo y su posicion y construye el item
+     * según los valores tanto leidos como totales.
+     * @param articulosViewHolder
+     * @param posicion
+     */
     @Override
     public void onBindViewHolder(@NonNull ArticulosViewHolder articulosViewHolder, int posicion) {
 
@@ -91,6 +97,11 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
             articulosViewHolder.leido.setTextColor(Color.GRAY);
         }
     }
+
+    /**
+     * Metodo para controlar el filtrado de la lista en base al input de la opcion de menu.
+     * @param text
+     */
 
     public void filter(final String text) {
 
@@ -136,6 +147,10 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
                 notifyDataSetChanged();
     }
 
+    /**
+     * Metodo que devuelve el tamaño de la lista auxiliar
+     * @return
+     */
     @Override
     public int getItemCount() {
 
@@ -147,6 +162,10 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
         this.listener = listener;
     }
 
+    /**
+     * Metodo que borra un articulo de la lista principal segun su posición.
+     * @param posicion
+     */
     public void removeItem(int posicion){
 
         datos.remove(posicion);
@@ -154,6 +173,9 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     }
 
+    /**
+     * Metodo para refrescar siempre la lista secundaria de filtrado.
+     */
    public void updateUI(){
         filtro.clear();
         filtro.addAll(datos);

@@ -48,6 +48,10 @@ public class Articulo implements Parcelable {
         return codigo;
     }
 
+    /**
+     * Metodo que convierte los valores a datos entendibles por nuestra DB
+     * @return
+     */
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
         values.put(ArticulosDbHelper.ArticulosContract.ArticulosEntry.CODIGO, codigo);
