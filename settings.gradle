@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':commons-logging-1.2', ':jsch-0.1.55'

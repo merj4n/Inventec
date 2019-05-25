@@ -23,12 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
+import net.iesochoa.germanbelda.proyect.inventec.Comunication.SftpConnection;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
 import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -229,6 +231,12 @@ public class MainActivity extends AppCompatActivity{
             /*menor = new AdaptadorArticulos(DbAccess.sortBy(lista,"<"));
             recView.setAdapter(menor);
             menor.notifyDataSetChanged();*/
+        }
+
+        if (id == R.id.itSubirDatos){
+            File localfile = new File("/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db");
+            SftpConnection conexion = new SftpConnection();
+            conexion.execute();
         }
         return super.onOptionsItemSelected(item);
     }
