@@ -13,7 +13,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="GERMÁN BELDA MOLINA \n\n PROYECTO FINAL 2ºK \n\n CURSO 2018-2019"
+        android:text="@string/TitleName"
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"

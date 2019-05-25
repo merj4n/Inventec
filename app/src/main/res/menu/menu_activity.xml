@@ -4,9 +4,9 @@
     tools:context=".MainActivity">
     <item
         android:id="@+id/itSubirDatos"
-        android:title="Subir datos" />
+        android:title="@string/actualizar_servidor" />
     <item android:id="@+id/itAjustes"
-        android:title="Ajustes"/>
+        android:title="@string/ajustes"/>
     <item android:id="@+id/itAcercade"
-        android:title="Acerca de..."/>
+        android:title="@string/acerca_de"/>
 </menu>

@@ -8,4 +8,12 @@
     <string name="todolosart">Todos los artículos</string>
     <string name="eliminararttitle">Eliminar artículo</string>
     <string name="questiondelete">¿Quieres eliminar este artículo del inventario?</string>
+    <string name="TitleName">GERMÁN BELDA MOLINA    PROYECTO FINAL 2ºK    CURSO 2018-2019</string>
+    <string name="titleIoText">INVENTEC</string>
+    <string name="inputInit">0</string>
+    <string name="totalsInit">44</string>
+    <string name="descInit">PLACA ASUS B350-M AMD</string>
+    <string name="acerca_de">Acerca de...</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="actualizar_servidor">Actualizar servidor</string>
 </resources>
