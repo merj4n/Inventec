@@ -38,6 +38,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity{
 
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
+    public static final String RUTA_FILE_DB = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
+    public static final String RUTA_FILE_UPLOAD = "/var/www/html/downloads/app/upload";
+    private static final int EAN13_CODE = 13;
     private RecyclerView recView;
     public ArrayList<Articulo> lista;
     public AdaptadorArticulos adaptador;
@@ -124,20 +127,20 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.getAction() == KeyEvent.ACTION_UP)) { //Solo ejecuta al soltar la tecla enter
-                    if (etinputCodigo.getText().length() == 13) {
+                    if (etinputCodigo.getText().length() == EAN13_CODE) {
                         ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
                         SQLiteDatabase database = db.getWritableDatabase();
                         Articulo articulo = new Articulo(etinputCodigo.getText().toString(), "", "1", "0");
                         if (!DbAccess.findArt(database, db, articulo)) {
                             lista.add(0, articulo); //Agrega al principio de la lista para mostrarlo el primero
                             DbAccess.insertArt(database, db, articulo);
-                            Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
                             etinputCodigo.setText("");
                             etinputCodigo.requestFocus();
                             adaptador.updateUI();
                             return true;
                         } else {
-                            Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() + " encontrado", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() + " encontrado", Toast.LENGTH_SHORT).show();
                             for (Articulo art : lista) {
                                 if (art.getCodigo().equals(articulo.getCodigo())) {
                                     int suma = Integer.parseInt(articulo.getLeidos()) + Integer.parseInt(art.getLeidos());
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity{
                             return true;
                         }
                     } else {
-                        Toast.makeText(MainActivity.this, "Formato no reconocido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.Noreconocido, Toast.LENGTH_SHORT).show();
                         etinputCodigo.setText("");
                         etinputCodigo.requestFocus();
                         return true;
@@ -194,12 +197,15 @@ public class MainActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         if (id == R.id.itAjustes) {
-            String[] listItems = new String[]{"Mayor", "Menor", "Distinto", "Todos"};
+            String[] listItems = new String[]{getString(R.string.excedente),
+                                              getString(R.string.faltante),
+                                              getString(R.string.descuadres),
+                                              getString(R.string.todolosart)};
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Articulos a mostrar");
+            builder.setTitle(getString(R.string.mostrar));
 
-            int checkedItem = 0; //this will checked the item when user open the dialog
+            int checkedItem = -1; //this will checked the item when user open the dialog
             builder.setSingleChoiceItems(listItems, checkedItem, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -232,19 +238,14 @@ public class MainActivity extends AppCompatActivity{
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
             LayoutInflater inflater = getLayoutInflater();
 
-            builder.setView(inflater.inflate(R.layout.acercade, null))
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+            builder.setView(inflater.inflate(R.layout.acercade, null));
 
             AlertDialog dialogIcon = builder.create();
             dialogIcon.show();
         }
 
         if (id == R.id.itSubirDatos){
-            File localfile = new File("/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db");
+            //File localfile = new File(RUTA_FILE_DB);
             SftpConnection conexion = new SftpConnection();
             conexion.execute();
         }
@@ -272,9 +273,9 @@ public class MainActivity extends AppCompatActivity{
         final ArticulosDbHelper db = new ArticulosDbHelper(this);
         final SQLiteDatabase database = db.getWritableDatabase();
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Eliminar artículo")
-                .setMessage("¿Quieres eliminar este artículo del inventario?")
-                .setPositiveButton("OK",
+        builder.setTitle(R.string.eliminararttitle)
+                .setMessage(R.string.questiondelete)
+                .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -284,7 +285,7 @@ public class MainActivity extends AppCompatActivity{
                                 dialog.dismiss();
                             }
                         })
-                .setNegativeButton("CANCELAR",
+                .setNegativeButton(android.R.string.cancel,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

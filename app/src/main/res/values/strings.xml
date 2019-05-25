@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Inventec</string>
+    <string name="Noreconocido">Formato no reconocido</string>
+    <string name="mostrar">Articulos a mostrar</string>
+    <string name="excedente">Excedentes</string>
+    <string name="faltante">Faltantes</string>
+    <string name="descuadres">Todos los descuadres</string>
+    <string name="todolosart">Todos los artículos</string>
+    <string name="eliminararttitle">Eliminar artículo</string>
+    <string name="questiondelete">¿Quieres eliminar este artículo del inventario?</string>
 </resources>

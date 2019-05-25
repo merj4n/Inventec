@@ -10,6 +10,8 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
+import net.iesochoa.germanbelda.proyect.inventec.Activities.MainActivity;
+
 
 public class SftpConnection extends AsyncTask<Void,Void,Void> {
 
@@ -34,7 +36,7 @@ public class SftpConnection extends AsyncTask<Void,Void,Void> {
             channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp sftp = (ChannelSftp) channel;
-            sftp.put("/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db", "/var/www/html/downloads/app/upload");
+            sftp.put(MainActivity.RUTA_FILE_DB, MainActivity.RUTA_FILE_UPLOAD);
         } catch (JSchException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
