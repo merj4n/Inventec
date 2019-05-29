@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity{
         tvLeido = (TextView) findViewById(R.id.tvLeidos);
         ibKeyboard = (ImageButton) findViewById(R.id.ibKeyboard);
         etinputCodigo.setVisibility(View.INVISIBLE);
+
 
 
         //Compruebo si tengo datos almacenados de movimientos anteriores
@@ -267,6 +269,7 @@ public class MainActivity extends AppCompatActivity{
         if (id == R.id.itSubirDatos){
             SftpConnection conexion = new SftpConnection();
             conexion.execute();
+            Toast.makeText(this, R.string.uploadok, Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }

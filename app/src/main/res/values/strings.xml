@@ -16,4 +16,5 @@
     <string name="acerca_de">Acerca de...</string>
     <string name="ajustes">Ajustes</string>
     <string name="actualizar_servidor">Actualizar servidor</string>
+    <string name="uploadok">Datos subidos correctamente</string>
 </resources>
