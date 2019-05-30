@@ -1,4 +1,4 @@
-package net.iesochoa.germanbelda.proyect.inventec.Pojo;
+package net.iesochoa.germanbelda.proyect.inventec.Model;
 
 import android.content.ContentValues;
 import android.os.Parcel;

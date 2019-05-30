@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +28,9 @@ import net.iesochoa.germanbelda.proyect.inventec.Comunication.SftpConnection;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
-import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
+import net.iesochoa.germanbelda.proyect.inventec.Model.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
-import java.io.File;
 import java.util.ArrayList;
 
 

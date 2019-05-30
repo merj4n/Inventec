@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
-import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
+import net.iesochoa.germanbelda.proyect.inventec.Model.Articulo;
 
 import java.util.ArrayList;
 

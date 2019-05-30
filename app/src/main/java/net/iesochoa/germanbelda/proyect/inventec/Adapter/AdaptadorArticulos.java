@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.iesochoa.germanbelda.proyect.inventec.Pojo.Articulo;
+import net.iesochoa.germanbelda.proyect.inventec.Model.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
