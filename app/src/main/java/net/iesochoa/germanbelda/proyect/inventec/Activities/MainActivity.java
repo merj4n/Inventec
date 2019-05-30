@@ -24,7 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
-import net.iesochoa.germanbelda.proyect.inventec.Comunication.SftpConnection;
+import net.iesochoa.germanbelda.proyect.inventec.Comunication.SftpConnectionDownload;
+import net.iesochoa.germanbelda.proyect.inventec.Comunication.SftpConnectionUpload;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
@@ -38,7 +39,10 @@ public class MainActivity extends AppCompatActivity{
 
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
     public static final String RUTA_FILE_DB = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
+    public static final String RUTA_FILE_DB_DOWNLOAD = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
     public static final String RUTA_FILE_UPLOAD = "/var/www/html/downloads/app/upload";
+    public static final String RUTA_FILE_DOWNLOAD = "/var/www/html/downloads/app/download/articulos.db";
+    public static final String RUTA_FILE_PATH = "/var/www/html/downloads/app/download";
     private static final int EAN13_CODE = 13;
     private RecyclerView recView;
     public ArrayList<Articulo> lista;
@@ -265,10 +269,18 @@ public class MainActivity extends AppCompatActivity{
         }
 
         if (id == R.id.itSubirDatos){
-            SftpConnection conexion = new SftpConnection();
+            SftpConnectionUpload conexion = new SftpConnectionUpload();
             conexion.execute();
             Toast.makeText(this, R.string.uploadok, Toast.LENGTH_SHORT).show();
         }
+
+        if (id == R.id.itDescargaDatos){
+            SftpConnectionDownload conexion = new SftpConnectionDownload();
+            conexion.execute();
+            initArrayDb();
+            Toast.makeText(this, "Datos descargados correctamente", Toast.LENGTH_SHORT).show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -288,7 +300,7 @@ public class MainActivity extends AppCompatActivity{
             DbAccess.readDb(database, db, lista);
             c.close();
         } else {
-            DbAccess.fillDb(database, db, lista);
+            DbAccess.fillList(database, db, lista);
             c.close();
         }
     }

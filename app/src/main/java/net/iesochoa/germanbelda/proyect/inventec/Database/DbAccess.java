@@ -28,10 +28,30 @@ public class DbAccess {
             // Inserto en la base de lista los articulos de mi arrayList
             for (Articulo ins : lista) {
                 Log.e("Error", ins.getNombre() + database.getPath());
-                database.insert("Articulo", null, ins.toContentValues());
+                database.insert(ArticulosContract.ArticulosEntry.TABLE_NAME, null, ins.toContentValues());
             }
         } catch (Exception e) {
             Log.e("Error", "No se ha podido crear la base de datos." + e.getMessage());
+        }
+    }
+
+    public static void fillList(SQLiteDatabase database, ArticulosDbHelper db, ArrayList<Articulo> lista){
+        try {
+            database = db.getWritableDatabase();
+            Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME, null, null, null, null, null, null);
+            if (!(c.getCount() == 0)) {
+                while (c.moveToNext()) {
+                    String codigo = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.CODIGO));
+                    String nombre = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.NAME));
+                    String totals = c.getString(c.getColumnIndex(ArticulosContract.ArticulosEntry.TOTALS));
+                    String leidos = "0";
+                    lista.add(new Articulo(codigo, nombre, leidos, totals));
+                }
+                c.close();
+            }
+
+        }catch (Exception e){
+            Log.e("Error", "Error de lectura en la base de datos." + e.getMessage());
         }
     }
 
@@ -62,7 +82,7 @@ public class DbAccess {
             String[] args = {
                     articulo.getCodigo()
             };
-            database.delete(ArticulosContract.ArticulosEntry.TABLE_NAME, "CODIGO=?", args);
+            database.delete(ArticulosContract.ArticulosEntry.TABLE_NAME, ArticulosContract.ArticulosEntry.CODIGO+"=?", args);
         } catch (Exception e) {
             Log.e("Error", "No se ha podido borrar el articulo." + e.getMessage());
         }
@@ -72,7 +92,7 @@ public class DbAccess {
         String codigo = "";
         try {
             database = db.getReadableDatabase();
-            String sql = "SELECT * FROM ARTICULO WHERE CODIGO=?";
+            String sql = "SELECT * FROM "+ArticulosContract.ArticulosEntry.TABLE_NAME+" WHERE "+ArticulosContract.ArticulosEntry.CODIGO+"=?";
             String[] args = {
                     articulo.getCodigo()
             };

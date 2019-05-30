@@ -17,4 +17,5 @@
     <string name="ajustes">Ajustes</string>
     <string name="actualizar_servidor">Actualizar servidor</string>
     <string name="uploadok">Datos subidos correctamente</string>
+    <string name="descargar_datos">Descargar Datos</string>
 </resources>

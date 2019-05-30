@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
+        android:id="@+id/itDescargaDatos"
+        android:title="@string/descargar_datos" />
+    <item
         android:id="@+id/itSubirDatos"
         android:title="@string/actualizar_servidor" />
     <item android:id="@+id/itAjustes"
