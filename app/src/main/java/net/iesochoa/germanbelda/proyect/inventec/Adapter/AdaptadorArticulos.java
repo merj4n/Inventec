@@ -17,6 +17,7 @@ import net.iesochoa.germanbelda.proyect.inventec.Model.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.ArticulosViewHolder> implements View.OnClickListener {
     private ArrayList<Articulo> datos, filtro;
@@ -176,9 +177,10 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     /**
      * Metodo para refrescar siempre la lista secundaria de filtrado.
      */
-   public void updateUI(){
+   public void updateUI(List<Articulo> listaArticulos){
         filtro.clear();
-        filtro.addAll(datos);
+        filtro.addAll(listaArticulos);
+        datos.addAll(listaArticulos);
         notifyDataSetChanged();
     }
 

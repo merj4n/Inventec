@@ -18,4 +18,5 @@
     <string name="actualizar_servidor">Actualizar servidor</string>
     <string name="uploadok">Datos subidos correctamente</string>
     <string name="descargar_datos">Descargar Datos</string>
+    <string name="descarga_ok">Datos descargados correctamente</string>
 </resources>

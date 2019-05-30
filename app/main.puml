@@ -1,58 +1,13 @@
-package net.iesochoa.germanbelda.proyect.inventec.Activities;
-
-import android.content.Context;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSftp;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.SftpException;
-
-import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
-import net.iesochoa.germanbelda.proyect.inventec.Comunication.SftpConnectionUpload;
-import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
-import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
-import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
-import net.iesochoa.germanbelda.proyect.inventec.Model.Articulo;
-import net.iesochoa.germanbelda.proyect.inventec.R;
-
-import java.util.ArrayList;
-
+@startuml
 
 public class MainActivity extends AppCompatActivity{
 
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
     public static final String RUTA_FILE_DB = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
-    public static final String RUTA_FILE_DB_DOWNLOAD = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
     public static final String RUTA_FILE_UPLOAD = "/var/www/html/downloads/app/upload";
-    public static final String RUTA_FILE_DOWNLOAD = "/var/www/html/downloads/app/download/articulos.db";
-    public static final String RUTA_FILE_PATH = "/var/www/html/downloads/app/download";
     private static final int EAN13_CODE = 13;
     private RecyclerView recView;
-    public static ArrayList<Articulo> lista;
+    public ArrayList<Articulo> lista;
     public AdaptadorArticulos adaptador;
     private EditText etinputCodigo;
     private TextView tvTitulo;
@@ -153,7 +108,7 @@ public class MainActivity extends AppCompatActivity{
                             //Toast.makeText(MainActivity.this, "Articulo insertado", Toast.LENGTH_SHORT).show();
                             etinputCodigo.setText("");
                             etinputCodigo.requestFocus();
-                            adaptador.updateUI(lista);
+                            adaptador.updateUI();
                             return true;
                         } else {
                             //Toast.makeText(MainActivity.this, "Articulo " + articulo.getCodigo() + " encontrado", Toast.LENGTH_SHORT).show();
@@ -164,7 +119,7 @@ public class MainActivity extends AppCompatActivity{
                                     Log.e("LEIDO", "Suma total ---> " + suma);
                                 }
                             }
-                            adaptador.updateUI(lista);
+                            adaptador.updateUI();
                             etinputCodigo.setText("");
                             etinputCodigo.requestFocus();
                             return true;
@@ -180,7 +135,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-        adaptador.updateUI(lista);
+        adaptador.updateUI();
     }
 
     /**
@@ -203,7 +158,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-        adaptador.updateUI(lista);
+        adaptador.updateUI();
     }
 
     /**
@@ -276,16 +231,10 @@ public class MainActivity extends AppCompatActivity{
         }
 
         if (id == R.id.itSubirDatos){
-            SftpConnectionUpload conexion = new SftpConnectionUpload();
+            SftpConnection conexion = new SftpConnection();
             conexion.execute();
-            Toast.makeText(this, R.string.uploadok, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Datos subidos correctamente", Toast.LENGTH_SHORT).show();
         }
-
-        if (id == R.id.itDescargaDatos){
-            SftpConnectionDownload conexion = new SftpConnectionDownload();
-            conexion.execute();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -305,7 +254,7 @@ public class MainActivity extends AppCompatActivity{
             DbAccess.readDb(database, db, lista);
             c.close();
         } else {
-            DbAccess.fillList(database, db, lista);
+            DbAccess.fillDb(database, db, lista);
             c.close();
         }
     }
@@ -327,7 +276,7 @@ public class MainActivity extends AppCompatActivity{
                             public void onClick(DialogInterface dialog, int which) {
                                 DbAccess.removeArt(database, db,lista, position);
                                 adaptador.removeItem(position);
-                                adaptador.updateUI(lista);
+                                adaptador.updateUI();
                                 dialog.dismiss();
                             }
                         })
@@ -340,74 +289,7 @@ public class MainActivity extends AppCompatActivity{
                         });
         builder.show();
     }
-
-    public class SftpConnectionDownload  extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            // TODO Auto-generated method stub
-            boolean conStatus = false;
-            Session session;
-            Channel channel;
-            java.util.Properties config = new java.util.Properties();
-            config.put("StrictHostKeyChecking", "no");
-
-            Log.i("Session", "is" + conStatus);
-            try {
-                JSch ssh = new JSch();
-                session = ssh.getSession("root", "www.teammarro.com", 22);
-                config = new java.util.Properties();
-                config.put("StrictHostKeyChecking", "no");
-                session.setConfig(config);
-                session.setPassword("Merjan81**");
-
-                session.connect();
-                channel = session.openChannel("sftp");
-                channel.connect();
-
-                ChannelSftp sftp = (ChannelSftp) channel;
-                //Me ubico en la ruta donde se encuentra el fichero
-                sftp.cd(MainActivity.RUTA_FILE_PATH);
-                // If you need to display the progress of the upload, read how to do it in the end of the article
-
-                // Indico el fichero que voy a descargar y donde lo voy a descargar
-                sftp.get(MainActivity.RUTA_FILE_DOWNLOAD,MainActivity.RUTA_FILE_DB_DOWNLOAD);
-
-
-                Boolean success = true;
-
-                if(success){
-                    // The file has been succesfully downloaded
-                }
-
-                channel.disconnect();
-                session.disconnect();
-            } catch (JSchException e) {
-                System.out.println(e.getMessage().toString());
-                e.printStackTrace();
-            } catch (SftpException e) {
-                System.out.println(e.getMessage().toString());
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            initArrayDb();
-            adaptador.updateUI(lista);
-            super.onPostExecute(aVoid);
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-    }
 }
+
+
+@enduml
