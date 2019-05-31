@@ -113,7 +113,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
                     filtro.addAll(datos);
                 } else {
                     // Busco en la lista original y lo añado a la de filtros
-                    for (Articulo item : datos) {
+                    for (Articulo item : filtro) {
                         int leidos = Integer.parseInt(item.getLeidos());
                         int totales = Integer.parseInt(item.getTotales());
 
@@ -170,7 +170,6 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     public void removeItem(int posicion){
 
         datos.remove(posicion);
-        notifyDataSetChanged();
 
     }
 

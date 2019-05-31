@@ -19,4 +19,6 @@
     <string name="uploadok">Datos subidos correctamente</string>
     <string name="descargar_datos">Descargar Datos</string>
     <string name="descarga_ok">Datos descargados correctamente</string>
+    <string name="limpiar_datos">Limpiar Datos</string>
+    <string name="datos_empty">Base de datos vacía</string>
 </resources>

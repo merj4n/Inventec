@@ -32,13 +32,13 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
 import net.iesochoa.germanbelda.proyect.inventec.Adapter.AdaptadorArticulos;
-import net.iesochoa.germanbelda.proyect.inventec.Comunication.SftpConnectionUpload;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosContract;
 import net.iesochoa.germanbelda.proyect.inventec.Database.ArticulosDbHelper;
 import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
 import net.iesochoa.germanbelda.proyect.inventec.Model.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity{
         tvLeido = (TextView) findViewById(R.id.tvLeidos);
         ibKeyboard = (ImageButton) findViewById(R.id.ibKeyboard);
         etinputCodigo.setVisibility(View.INVISIBLE);
+        lista = new ArrayList<>();
 
 
 
@@ -278,12 +279,16 @@ public class MainActivity extends AppCompatActivity{
         if (id == R.id.itSubirDatos){
             SftpConnectionUpload conexion = new SftpConnectionUpload();
             conexion.execute();
-            Toast.makeText(this, R.string.uploadok, Toast.LENGTH_SHORT).show();
+
         }
 
         if (id == R.id.itDescargaDatos){
             SftpConnectionDownload conexion = new SftpConnectionDownload();
             conexion.execute();
+        }
+
+        if(id == R.id.itclearData){
+            limpiarDatos();
         }
 
         return super.onOptionsItemSelected(item);
@@ -296,18 +301,32 @@ public class MainActivity extends AppCompatActivity{
     public void initArrayDb() {
         ArticulosDbHelper db = new ArticulosDbHelper(this);
         SQLiteDatabase database = db.getWritableDatabase();
-        lista = new ArrayList<>();
+
         //Como siempre creo la base de datos lo que compruebo para rellenar el array es si el numero de elementos es distinto de 0
         // si es así, recorro los elementos de la base de datos y relleno el array.
-        Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME, null, null, null, null, null, null);
+        try {
+            Cursor c = database.query(ArticulosContract.ArticulosEntry.TABLE_NAME, null, null, null, null, null, null);
 
-        if (!(c.getCount() == 0)) {
-            DbAccess.readDb(database, db, lista);
-            c.close();
-        } else {
-            DbAccess.fillList(database, db, lista);
-            c.close();
+            if (!(c.getCount() == 0)) {
+                DbAccess.readDb(database, db, lista);
+                c.close();
+            } else {
+                Toast.makeText(this, R.string.datos_empty, Toast.LENGTH_SHORT).show();
+                c.close();
+            }
+        }catch (Exception e){
+            Log.e("ERROR","No hay datos");
         }
+    }
+
+    public void limpiarDatos(){
+        ArticulosDbHelper db = new ArticulosDbHelper(this);
+        SQLiteDatabase database = db.getWritableDatabase();
+
+        lista.clear();
+        DbAccess.dropTable(database,db);
+        adaptador.updateUI(lista);
+
     }
 
     /**
@@ -341,6 +360,9 @@ public class MainActivity extends AppCompatActivity{
         builder.show();
     }
 
+    /**
+     * Clase para descargar el fichero de la base de datos.
+     */
     public class SftpConnectionDownload  extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -401,6 +423,67 @@ public class MainActivity extends AppCompatActivity{
         protected void onPostExecute(Void aVoid) {
             initArrayDb();
             adaptador.updateUI(lista);
+            Toast.makeText(MainActivity.this, R.string.descarga_ok, Toast.LENGTH_SHORT).show();
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+    }
+
+    /**
+     * Clase para la subida del fichero al servidor.
+     */
+    public class SftpConnectionUpload extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // TODO Auto-generated method stub
+            boolean conStatus = false;
+            Session session;
+            Channel channel;
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+
+            Log.i("Session", "is" + conStatus);
+            try {
+                JSch ssh = new JSch();
+                session = ssh.getSession("root", "www.teammarro.com", 22);
+                session.setPassword("Merjan81**");
+                session.setConfig(config);
+                session.connect();
+                conStatus = session.isConnected();
+                Log.i("Session", "is" + conStatus);
+                channel = session.openChannel("sftp");
+                while (!conStatus) {
+                    conStatus = session.isConnected();
+                    channel.connect();
+                    ChannelSftp sftp = (ChannelSftp) channel;
+                    sftp.put(MainActivity.RUTA_FILE_DB, MainActivity.RUTA_FILE_UPLOAD);
+                }
+            } catch (JSchException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                Log.i("Session", "is" + conStatus);
+            } catch (SftpException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                Log.i("Session", "is" + conStatus);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(MainActivity.this, R.string.uploadok, Toast.LENGTH_SHORT).show();
             super.onPostExecute(aVoid);
         }
 
