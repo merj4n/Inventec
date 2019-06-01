@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity{
     public static final String RUTA_FILE_PATH = "/var/www/html/downloads/app/download";
     private static final int EAN13_CODE = 13;
     private RecyclerView recView;
-    public static ArrayList<Articulo> lista;
+    public static ArrayList<Articulo> lista = new ArrayList<>();
     public AdaptadorArticulos adaptador;
     private EditText etinputCodigo;
     private TextView tvTitulo;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
         tvLeido = (TextView) findViewById(R.id.tvLeidos);
         ibKeyboard = (ImageButton) findViewById(R.id.ibKeyboard);
         etinputCodigo.setVisibility(View.INVISIBLE);
-        lista = new ArrayList<>();
+
 
 
 

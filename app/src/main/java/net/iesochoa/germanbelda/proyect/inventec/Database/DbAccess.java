@@ -90,7 +90,7 @@ public class DbAccess {
         String codigo = "";
         try {
             database = db.getReadableDatabase();
-            String sql = "SELECT * FROM "+ArticulosContract.ArticulosEntry.TABLE_NAME+" WHERE "+ArticulosContract.ArticulosEntry.CODIGO+"=?";
+            String sql = "SELECT * FROM "+ArticulosContract.ArticulosEntry.TABLE_NAME+" WHERE "+ArticulosContract.ArticulosEntry.CODIGO+" = ?";
             String[] args = {
                     articulo.getCodigo()
             };
@@ -101,7 +101,7 @@ public class DbAccess {
             }
             c.close();
         } catch (Exception e) {
-            Log.e("Error", "Articulo no encontrado." + e.getMessage());
+            Log.e("Error", "Articulo "+codigo+" no encontrado." + e.getMessage());
         }
         return false;
     }
