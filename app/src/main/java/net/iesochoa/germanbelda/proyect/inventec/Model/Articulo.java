@@ -16,7 +16,7 @@ public class Articulo implements Parcelable {
     private String leidos; // Nuevo campo de nuestro pojo
     private String totales;
 
-    public Articulo(String codigo, String nombre,String leidos, String totales) {
+    public Articulo(String codigo, String nombre, String leidos, String totales) {
         this.id = UUID.randomUUID().toString();
         this.codigo = codigo;
         this.nombre = nombre;
@@ -50,6 +50,7 @@ public class Articulo implements Parcelable {
 
     /**
      * Metodo que convierte los valores a datos entendibles por nuestra DB
+     *
      * @return
      */
     public ContentValues toContentValues() {

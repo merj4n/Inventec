@@ -25,7 +25,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     Context context;
 
 
-    public AdaptadorArticulos(Context context,ArrayList<Articulo> datos) {
+    public AdaptadorArticulos(Context context, ArrayList<Articulo> datos) {
         this.datos = datos;
         this.filtro = new ArrayList<>();
         this.filtro.addAll(this.datos);
@@ -65,6 +65,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     /**
      * Metodo que trata la vista que recibe con el articulo y su posicion y construye el item
      * según los valores tanto leidos como totales.
+     *
      * @param articulosViewHolder
      * @param posicion
      */
@@ -101,55 +102,57 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     /**
      * Metodo para controlar el filtrado de la lista en base al input de la opcion de menu.
+     *
      * @param text
      */
 
     public void filter(final String text) {
 
-                // Limpio la lista filtrada
-                filtro.clear();
-                // Si no hay valor en el string la lista original la copio en la filtrada
-                if (TextUtils.isEmpty(text)) {
-                    filtro.addAll(datos);
-                } else {
-                    // Busco en la lista original y lo añado a la de filtros
-                    for (Articulo item : datos) {
-                        int leidos = Integer.parseInt(item.getLeidos());
-                        int totales = Integer.parseInt(item.getTotales());
+        // Limpio la lista filtrada
+        filtro.clear();
+        // Si no hay valor en el string la lista original la copio en la filtrada
+        if (TextUtils.isEmpty(text)) {
+            filtro.addAll(datos);
+        } else {
+            // Busco en la lista original y lo añado a la de filtros
+            for (Articulo item : datos) {
+                int leidos = Integer.parseInt(item.getLeidos());
+                int totales = Integer.parseInt(item.getTotales());
 
-                        switch (text) {
-                            case "<":
-                                if (leidos < totales) {
-                                    Log.e("NO",leidos+" ----- "+totales + " simbolo " +text);
-                                    // Añado articulo
-                                    filtro.add(item);
-                                }
-                                break;
-                            case ">":
-                                if (leidos > totales) {
-                                    Log.e("SALIDA",leidos+" ----- "+totales + " simbolo " +text);
-                                    // Añado articulo
-                                    filtro.add(item);
-                                    Log.e("INDICE",""+filtro.indexOf(item));
-                                }
-                                break;
-                            case "<>":
-                                if ((leidos > totales) || (leidos < totales)) {
-                                    Log.e("NO",leidos+" ----- "+totales + " simbolo " +text);
-                                    // Añado articulo
-                                    filtro.add(item);
-                                }
-                                break;
-                            default:
-                                break;
+                switch (text) {
+                    case "<":
+                        if (leidos < totales) {
+                            Log.e("NO", leidos + " ----- " + totales + " simbolo " + text);
+                            // Añado articulo
+                            filtro.add(item);
                         }
-                    }
+                        break;
+                    case ">":
+                        if (leidos > totales) {
+                            Log.e("SALIDA", leidos + " ----- " + totales + " simbolo " + text);
+                            // Añado articulo
+                            filtro.add(item);
+                            Log.e("INDICE", "" + filtro.indexOf(item));
+                        }
+                        break;
+                    case "<>":
+                        if ((leidos > totales) || (leidos < totales)) {
+                            Log.e("NO", leidos + " ----- " + totales + " simbolo " + text);
+                            // Añado articulo
+                            filtro.add(item);
+                        }
+                        break;
+                    default:
+                        break;
                 }
-                notifyDataSetChanged();
+            }
+        }
+        notifyDataSetChanged();
     }
 
     /**
      * Metodo que devuelve el tamaño de la lista auxiliar
+     *
      * @return
      */
     @Override
@@ -165,9 +168,10 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
 
     /**
      * Metodo que borra un articulo de la lista principal segun su posición.
+     *
      * @param posicion
      */
-    public void removeItem(int posicion){
+    public void removeItem(int posicion) {
 
         datos.remove(posicion);
 
@@ -176,7 +180,7 @@ public class AdaptadorArticulos extends RecyclerView.Adapter<AdaptadorArticulos.
     /**
      * Metodo para refrescar siempre la lista secundaria de filtrado.
      */
-   public void updateUI(List<Articulo> listaArticulos){
+    public void updateUI(List<Articulo> listaArticulos) {
         filtro.clear();
         filtro.addAll(listaArticulos);
         datos.clear();

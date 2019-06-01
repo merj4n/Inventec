@@ -42,7 +42,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
     public static final String RUTA_FILE_DB = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
@@ -63,10 +63,11 @@ public class MainActivity extends AppCompatActivity{
      * Metodo principal en el que trato los articulos con su recyclerView y su adaptador,
      * y los eventos del boton de añadir articulos asi como la entrada de datos mediante
      * teclado o bluetooth.
+     *
      * @param savedInstanceState
      */
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -77,8 +78,6 @@ public class MainActivity extends AppCompatActivity{
         etinputCodigo.setVisibility(View.INVISIBLE);
 
 
-
-
         //Compruebo si tengo datos almacenados de movimientos anteriores
         if (savedInstanceState != null) {
             lista = savedInstanceState.getParcelableArrayList(ARRAYLIST_DATA);
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity{
             initArrayDb();
         }
 
-        adaptador = new AdaptadorArticulos(this,lista);
+        adaptador = new AdaptadorArticulos(this, lista);
 
         //Inicialización RecyclerView
         recView = (RecyclerView) findViewById(R.id.rvArticulos);
@@ -187,6 +186,7 @@ public class MainActivity extends AppCompatActivity{
     /**
      * Metodo que guarda una instancia de los datos presentes antes de cerrar la actividad principal
      * para poder restaurarlos posteriormente si es necesario.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Metodo para la creación del menu de opciones de la barra principal.
+     *
      * @param menu
      * @return
      */
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Metodo que da funcionalidad a cada una de las opciones de menu.
+     *
      * @param item
      * @return
      */
@@ -230,9 +232,9 @@ public class MainActivity extends AppCompatActivity{
 
         if (id == R.id.itAjustes) {
             String[] listItems = new String[]{getString(R.string.excedente),
-                                              getString(R.string.faltante),
-                                              getString(R.string.descuadres),
-                                              getString(R.string.todolosart)};
+                    getString(R.string.faltante),
+                    getString(R.string.descuadres),
+                    getString(R.string.todolosart)};
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.mostrar));
@@ -276,18 +278,18 @@ public class MainActivity extends AppCompatActivity{
             dialogIcon.show();
         }
 
-        if (id == R.id.itSubirDatos){
+        if (id == R.id.itSubirDatos) {
             SftpConnectionUpload conexion = new SftpConnectionUpload();
             conexion.execute();
 
         }
 
-        if (id == R.id.itDescargaDatos){
+        if (id == R.id.itDescargaDatos) {
             SftpConnectionDownload conexion = new SftpConnectionDownload();
             conexion.execute();
         }
 
-        if(id == R.id.itclearData){
+        if (id == R.id.itclearData) {
             limpiarDatos();
         }
 
@@ -314,17 +316,17 @@ public class MainActivity extends AppCompatActivity{
                 Toast.makeText(this, R.string.datos_empty, Toast.LENGTH_SHORT).show();
                 c.close();
             }
-        }catch (Exception e){
-            Log.e("ERROR","No hay datos");
+        } catch (Exception e) {
+            Log.e("ERROR", "No hay datos");
         }
     }
 
-    public void limpiarDatos(){
+    public void limpiarDatos() {
         ArticulosDbHelper db = new ArticulosDbHelper(this);
         SQLiteDatabase database = db.getWritableDatabase();
 
         lista.clear();
-        DbAccess.dropTable(database,db);
+        DbAccess.dropTable(database, db);
         adaptador.updateUI(lista);
 
     }
@@ -332,6 +334,7 @@ public class MainActivity extends AppCompatActivity{
     /**
      * Metodo que elimina un articulo seleccionado en el recyclerView en base a su posición,
      * es elminado de la DB y de la lista.
+     *
      * @param position
      */
     public void eliminarArt(final int position) {
@@ -344,7 +347,7 @@ public class MainActivity extends AppCompatActivity{
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                DbAccess.removeArt(database, db,lista, position);
+                                DbAccess.removeArt(database, db, lista, position);
                                 adaptador.removeItem(position);
                                 adaptador.updateUI(lista);
                                 dialog.dismiss();
@@ -363,7 +366,7 @@ public class MainActivity extends AppCompatActivity{
     /**
      * Clase para descargar el fichero de la base de datos.
      */
-    public class SftpConnectionDownload  extends AsyncTask<Void, Void, Void> {
+    public class SftpConnectionDownload extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -393,12 +396,12 @@ public class MainActivity extends AppCompatActivity{
                 // If you need to display the progress of the upload, read how to do it in the end of the article
 
                 // Indico el fichero que voy a descargar y donde lo voy a descargar
-                sftp.get(MainActivity.RUTA_FILE_DOWNLOAD,MainActivity.RUTA_FILE_DB_DOWNLOAD);
+                sftp.get(MainActivity.RUTA_FILE_DOWNLOAD, MainActivity.RUTA_FILE_DB_DOWNLOAD);
 
 
                 Boolean success = true;
 
-                if(success){
+                if (success) {
                     // The file has been succesfully downloaded
                 }
 
