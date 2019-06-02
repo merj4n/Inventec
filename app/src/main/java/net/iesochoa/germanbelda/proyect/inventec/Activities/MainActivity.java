@@ -380,11 +380,11 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Session", "is" + conStatus);
             try {
                 JSch ssh = new JSch();
-                session = ssh.getSession("root", "www.teammarro.com", 22);
+                session = ssh.getSession("XXXX", "www.teammarro.com", 22);
                 config = new java.util.Properties();
                 config.put("StrictHostKeyChecking", "no");
                 session.setConfig(config);
-                session.setPassword("Merjan81**");
+                session.setPassword("XXXXXXXXXXX");
 
                 session.connect();
                 channel = session.openChannel("sftp");
@@ -454,8 +454,8 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Session", "is" + conStatus);
             try {
                 JSch ssh = new JSch();
-                session = ssh.getSession("root", "www.teammarro.com", 22);
-                session.setPassword("Merjan81**");
+                session = ssh.getSession("XXXX", "www.teammarro.com", 22);
+                session.setPassword("XXXXXXX");
                 session.setConfig(config);
                 session.connect();
                 conStatus = session.isConnected();
