@@ -6,8 +6,8 @@
     <string name="faltante">Faltantes</string>
     <string name="descuadres">Todos los descuadres</string>
     <string name="todolosart">Todos los artículos</string>
-    <string name="eliminararttitle">Eliminar artículo</string>
-    <string name="questiondelete">¿Quieres eliminar este artículo del inventario?</string>
+    <string name="resetTitle">Reiniciar artículo</string>
+    <string name="questionreset">¿Quieres reiniciar la lectura del artículo?</string>
     <string name="TitleName">GERMÁN BELDA MOLINA    PROYECTO FINAL 2ºK    CURSO 2018-2019</string>
     <string name="titleIoText">INVENTEC</string>
     <string name="inputInit">0</string>

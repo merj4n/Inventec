@@ -38,7 +38,6 @@ import net.iesochoa.germanbelda.proyect.inventec.Database.DbAccess;
 import net.iesochoa.germanbelda.proyect.inventec.Model.Articulo;
 import net.iesochoa.germanbelda.proyect.inventec.R;
 
-import java.io.File;
 import java.util.ArrayList;
 
 
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((keyCode == KeyEvent.KEYCODE_ENTER) && (event.getAction() == KeyEvent.ACTION_UP)) { //Solo ejecuta al soltar la tecla enter
-                    if (etinputCodigo.getText().length() == EAN13_CODE) {
+                    if ((etinputCodigo.getText().length() == 13) && (etinputCodigo.getText().toString().matches("[0-9]+"))) {
                         ArticulosDbHelper db = new ArticulosDbHelper(MainActivity.this);
                         SQLiteDatabase database = db.getWritableDatabase();
                         Articulo articulo = new Articulo(etinputCodigo.getText().toString(), "", "1", "0");
@@ -341,14 +340,16 @@ public class MainActivity extends AppCompatActivity {
         final ArticulosDbHelper db = new ArticulosDbHelper(this);
         final SQLiteDatabase database = db.getWritableDatabase();
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.eliminararttitle)
-                .setMessage(R.string.questiondelete)
+        builder.setTitle(R.string.resetTitle)
+                .setMessage(R.string.questionreset)
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                DbAccess.removeArt(database, db, lista, position);
-                                adaptador.removeItem(position);
+                                //DbAccess.removeArt(database, db, lista, position);
+                                //adaptador.removeItem(position);
+                                Articulo articulo = lista.get(position);
+                                lista.set(position,articulo).setLeidos("0");
                                 adaptador.updateUI(lista);
                                 dialog.dismiss();
                             }
@@ -380,11 +381,11 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Session", "is" + conStatus);
             try {
                 JSch ssh = new JSch();
-                session = ssh.getSession("XXXX", "www.teammarro.com", 22);
+                session = ssh.getSession("root", "www.teammarro.com", 22);
                 config = new java.util.Properties();
                 config.put("StrictHostKeyChecking", "no");
                 session.setConfig(config);
-                session.setPassword("XXXXXXXXXXX");
+                session.setPassword("Merjan81**");
 
                 session.connect();
                 channel = session.openChannel("sftp");
@@ -454,8 +455,8 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Session", "is" + conStatus);
             try {
                 JSch ssh = new JSch();
-                session = ssh.getSession("XXXX", "www.teammarro.com", 22);
-                session.setPassword("XXXXXXX");
+                session = ssh.getSession("root", "www.teammarro.com", 22);
+                session.setPassword("Merjan81**");
                 session.setConfig(config);
                 session.connect();
                 conStatus = session.isConnected();

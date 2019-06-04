@@ -38,6 +38,7 @@ public class DbAccess {
             String[] args = {
                     articulo.getCodigo()
             };
+
             database.delete(ArticulosContract.ArticulosEntry.TABLE_NAME, ArticulosContract.ArticulosEntry.CODIGO + "=?", args);
             database.close();
         } catch (Exception e) {
