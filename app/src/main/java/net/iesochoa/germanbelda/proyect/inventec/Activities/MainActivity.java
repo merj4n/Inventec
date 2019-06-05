@@ -331,9 +331,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo que elimina un articulo seleccionado en el recyclerView en base a su posición,
-     * es elminado de la DB y de la lista.
-     *
+     * Metodo que resetea el contador de articulos leidos en base a la posicion de un articulo
+     * empleando un dialogo de confirmacion.
      * @param position
      */
     public void eliminarArt(final int position) {
