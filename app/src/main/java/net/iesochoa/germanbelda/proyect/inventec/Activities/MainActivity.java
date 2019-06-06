@@ -44,11 +44,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private static final String ARRAYLIST_DATA = "ARRAYLIST_DATA";
-    public static final String RUTA_FILE_DB = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
-    public static final String RUTA_FILE_DB_DOWNLOAD = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
-    public static final String RUTA_FILE_UPLOAD = "/var/www/html/downloads/app/upload";
+    public static final String RUTA_FILE_DB_DOWNLOAD_UPLOAD = "/data/data/net.iesochoa.germanbelda.proyect.inventec/databases/articulos.db";
+    public static final String RUTA_FILE_UPLOAD = "/var/www/html/downloads/app/upload/articulos.db";
     public static final String RUTA_FILE_DOWNLOAD = "/var/www/html/downloads/app/download/articulos.db";
     public static final String RUTA_FILE_PATH = "/var/www/html/downloads/app/download";
+    public static final String RUTA_FILE_PATH_UP = "/var/www/html/downloads/app/upload";
     private static final int EAN13_CODE = 13;
     private RecyclerView recView;
     public static ArrayList<Articulo> lista = new ArrayList<>();
@@ -380,11 +380,11 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Session", "is" + conStatus);
             try {
                 JSch ssh = new JSch();
-                session = ssh.getSession("XXXXXXX", "www.teammarro.com", 22);
+                session = ssh.getSession("XXXXXXXXXX", "XXXXXXXXXX", 22);
                 config = new java.util.Properties();
                 config.put("StrictHostKeyChecking", "no");
                 session.setConfig(config);
-                session.setPassword("XXXXXXXXXX");
+                session.setPassword("XXXXXXXXXXX");
 
                 session.connect();
                 channel = session.openChannel("sftp");
@@ -396,14 +396,8 @@ public class MainActivity extends AppCompatActivity {
                 // If you need to display the progress of the upload, read how to do it in the end of the article
 
                 // Indico el fichero que voy a descargar y donde lo voy a descargar
-                sftp.get(MainActivity.RUTA_FILE_DOWNLOAD, MainActivity.RUTA_FILE_DB_DOWNLOAD);
+                sftp.get(MainActivity.RUTA_FILE_DOWNLOAD, MainActivity.RUTA_FILE_DB_DOWNLOAD_UPLOAD);
 
-
-                Boolean success = true;
-
-                if (success) {
-                    // The file has been succesfully downloaded
-                }
 
                 channel.disconnect();
                 session.disconnect();
@@ -445,6 +439,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             // TODO Auto-generated method stub
+
             boolean conStatus = false;
             Session session;
             Channel channel;
@@ -454,19 +449,27 @@ public class MainActivity extends AppCompatActivity {
             Log.i("Session", "is" + conStatus);
             try {
                 JSch ssh = new JSch();
-                session = ssh.getSession("XXXXXX", "www.teammarro.com", 22);
-                session.setPassword("XXXXXXX");
+                session = ssh.getSession("XXXXXXX", "XXXXXXXXXXX", 22);
+                config = new java.util.Properties();
+                config.put("StrictHostKeyChecking", "no");
                 session.setConfig(config);
+                session.setPassword("XXXXXXXXXX");
+
                 session.connect();
-                conStatus = session.isConnected();
-                Log.i("Session", "is" + conStatus);
                 channel = session.openChannel("sftp");
-                while (!conStatus) {
-                    conStatus = session.isConnected();
-                    channel.connect();
-                    ChannelSftp sftp = (ChannelSftp) channel;
-                    sftp.put(MainActivity.RUTA_FILE_DB, MainActivity.RUTA_FILE_UPLOAD);
-                }
+                channel.connect();
+
+                ChannelSftp sftp = (ChannelSftp) channel;
+                //Me ubico en la ruta donde se encuentra el fichero
+                sftp.cd(MainActivity.RUTA_FILE_PATH_UP);
+                // If you need to display the progress of the upload, read how to do it in the end of the article
+
+                // Indico el fichero que voy a descargar y donde lo voy a subir
+                sftp.put(MainActivity.RUTA_FILE_DB_DOWNLOAD_UPLOAD, MainActivity.RUTA_FILE_UPLOAD);
+
+
+                channel.disconnect();
+                session.disconnect();
             } catch (JSchException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
